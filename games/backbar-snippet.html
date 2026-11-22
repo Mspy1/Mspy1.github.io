@@ -1,0 +1,25 @@
+<!--
+  Shared slim site-styled back bar — inlined verbatim at the very top of each
+  vendored game page (immediately after the opening body tag).
+
+  The tokens below are copied from the portfolio's inline :root set so the
+  containment bar matches the site without any network request.
+
+  Per page, the title span text is set to that game's title.
+  Per-page additions are appended after this snippet (see task-1-report.md):
+  solitaire and wordle get the site's inline favicon (a 404 /favicon.ico would
+  otherwise log a console error); solitaire also cancels its flex-centred body
+  padding so the bar spans full width; fancy-banana keeps its own inline favicon
+  and makes the bar fixed while reserving 48px of body padding for its
+  flex-centred, padding-aware canvas.
+-->
+<style>
+.msm-backbar{--bg:#ffffff;--bg-alt:#f5f5f7;--ink:#1d1d1f;--ink-2:#424245;--muted:#6e6e73;--line:#d2d2d7;--blue:#0066cc;--blue-hover:#0077ed;--max:1080px;--ease:cubic-bezier(.22,.61,.36,1);box-sizing:border-box;position:sticky;top:0;z-index:2147483000;height:48px;display:flex;align-items:center;padding:0 22px;background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:13px;line-height:1;letter-spacing:-.01em;color:var(--ink-2)}
+.msm-backbar *{box-sizing:border-box}
+.msm-backbar .msm-inner{width:100%;max-width:var(--max);margin:0 auto;display:flex;align-items:center;gap:12px}
+.msm-backbar a{color:var(--blue);font-weight:600;text-decoration:none;white-space:nowrap}
+.msm-backbar a:hover{color:var(--blue-hover);text-decoration:underline}
+.msm-backbar .msm-title{margin-left:auto;color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:380px){.msm-backbar{padding:0 14px}.msm-backbar .msm-inner{gap:8px}}
+</style>
+<div class="msm-backbar"><div class="msm-inner"><a href="/games/">← Mspy1 · Games</a><span class="msm-title">{{GAME_TITLE}}</span></div></div>
