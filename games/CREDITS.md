@@ -1,6 +1,6 @@
 # Game credits and licenses
 
-The 15 games hosted at `/games/` are vendored snapshots of open-source projects.
+The 17 games hosted at `/games/` are vendored snapshots of open-source projects.
 Each keeps its upstream MIT license and copyright notice verbatim (see the
 `LICENSE` files alongside the games). No game logic was modified. Screenshots of
 the games under `games/thumbs/` are covered by the same MIT attribution.
@@ -11,6 +11,7 @@ the games under `games/thumbs/` are covered by the same MIT attribution.
 | 2 | Wordle Clone | [WebDevSimplified/wordle-clone](https://github.com/WebDevSimplified/wordle-clone) | MIT | Copyright 2022 WebDevSimplified |
 | 3 | Fancy, the Banana | [lfcfoundry/fancy-banana](https://github.com/lfcfoundry/fancy-banana) | MIT | Copyright (c) 2026 LFC Foundry |
 | 4 | 12-game bundle | [wavde/games](https://github.com/wavde/games) | MIT | Copyright (c) 2026 Tejas Wavde |
+| 5 | Brush & Blade | [emollick/brush-and-blade](https://github.com/emollick/brush-and-blade) | MIT | Copyright (c) 2026 Ethan Mollick |
 
 ## 1. Solitaire
 
@@ -72,9 +73,22 @@ the games under `games/thumbs/` are covered by the same MIT attribution.
   - No other files changed; all JS, other CSS, favicon, manifest and docs are
     verbatim. No build step, no runtime dependencies.
 
+## 5. Brush & Blade
+
+- **Upstream:** https://github.com/emollick/brush-and-blade
+- **Pinned commit:** `24b9cbc5262511f22b39951e438f1f445fcd4db3` (2026-11-23)
+- **License:** MIT — `Copyright (c) 2026 Ethan Mollick`. Upstream `LICENSE`
+  copied verbatim to `games/brush-and-blade/LICENSE`.
+- **Local files:** `games/brush-and-blade/` — the vendored `dist/` produced by
+  the one-time, dependency-free build command `node build.cjs`.
+- **Local patches:** built once with `node build.cjs` and vendored the resulting
+  `dist/`; injected the site-styled back bar linking to `/games/` immediately
+  after the opening `<body>` tag of `games/brush-and-blade/index.html`. Game
+  logic untouched; no runtime external requests introduced.
+
 ## Shared local patch — back bar
 
-Every one of the 15 game pages (plus the wavde hub) carries a slim site-styled
+Every one of the 17 game pages (plus the wavde hub) carries a slim site-styled
 bar at the top: `← Mspy1 · Games` linking to `/games/` with the page title on
 the right. It is inlined from `games/backbar-snippet.html`. This is a navigational
 containment bar only; no game UI or logic is altered by it.

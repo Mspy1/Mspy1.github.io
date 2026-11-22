@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#14121a"><meta name="description" content="Eight painters become eight pixel-art knights. Play a duel, face the whole gallery, or watch them fight."><title>Brush & Blade — The Painted Tournament</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css"></head>
+<body>
+<!--
+  Shared slim site-styled back bar — inlined verbatim at the very top of each
+  vendored game page (immediately after the opening body tag).
+
+  The tokens below are copied from the portfolio's inline :root set so the
+  containment bar matches the site without any network request.
+
+  Per page, the title span text is set to that game's title.
+  Per-page additions are appended after this snippet (see task-1-report.md):
+  solitaire and wordle get the site's inline favicon (a 404 /favicon.ico would
+  otherwise log a console error); solitaire also cancels its flex-centred body
+  padding so the bar spans full width; fancy-banana keeps its own inline favicon
+  and makes the bar fixed while reserving 48px of body padding for its
+  flex-centred, padding-aware canvas.
+-->
+<style>
+.msm-backbar{--bg:#ffffff;--bg-alt:#f5f5f7;--ink:#1d1d1f;--ink-2:#424245;--muted:#6e6e73;--line:#d2d2d7;--blue:#0066cc;--blue-hover:#0077ed;--max:1080px;--ease:cubic-bezier(.22,.61,.36,1);box-sizing:border-box;position:sticky;top:0;z-index:2147483000;height:48px;display:flex;align-items:center;padding:0 22px;background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:13px;line-height:1;letter-spacing:-.01em;color:var(--ink-2)}
+.msm-backbar *{box-sizing:border-box}
+.msm-backbar .msm-inner{width:100%;max-width:var(--max);margin:0 auto;display:flex;align-items:center;gap:12px}
+.msm-backbar a{color:var(--blue);font-weight:600;text-decoration:none;white-space:nowrap}
+.msm-backbar a:hover{color:var(--blue-hover);text-decoration:underline}
+.msm-backbar .msm-title{margin-left:auto;color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:380px){.msm-backbar{padding:0 14px}.msm-backbar .msm-inner{gap:8px}}
+</style>
+<div class="msm-backbar"><div class="msm-inner"><a href="/games/">← Mspy1 · Games</a><span class="msm-title">Brush & Blade</span></div></div>
+<main id="game">
+  <header class="masthead"><div class="wordmark">Brush <i>&</i> Blade <span>THE PAINTED TOURNAMENT</span></div><nav aria-label="Game options"><button id="helpButton" aria-label="How to play">How to play</button><button id="soundButton" aria-pressed="false">Sound off</button><button id="fullscreenButton" aria-label="Toggle fullscreen">⛶</button></nav></header>
+  <section class="arena-wrap" aria-label="Fighting arena">
+    <canvas id="arena" width="1280" height="620" tabindex="0" aria-label="Brush and Blade arena. Controls are listed below the arena."></canvas>
+    <div id="loading" class="loading">Hanging the paintings… <span id="loadCount">0 / 8</span></div>
+    <div class="match-hud" aria-hidden="true"><div class="health left"><div class="fighter-label"><strong id="leftName">KLIMT</strong><span id="leftScore">○ ○</span></div><div class="health-track"><div id="leftHP"></div></div><div class="minor-bars"><span class="stamina"><i id="leftStamina"></i></span><span class="guard"><i id="leftGuard"></i></span></div><div class="meter"><i id="leftMeter"></i><span id="leftSpecial">MOSAIC RUSH</span></div></div><div class="round-clock"><span id="roundLabel">ROUND 1</span><strong id="clock">75</strong><small id="modeLabel">EXHIBITION</small></div><div class="health right"><div class="fighter-label"><strong id="rightName">HOKUSAI</strong><span id="rightScore">○ ○</span></div><div class="health-track"><div id="rightHP"></div></div><div class="minor-bars"><span class="stamina"><i id="rightStamina"></i></span><span class="guard"><i id="rightGuard"></i></span></div><div class="meter"><i id="rightMeter"></i><span id="rightSpecial">GREAT WAVE</span></div></div></div>
+    <div id="result" class="result" hidden><p id="resultEyebrow">MATCH COMPLETE</p><h1 id="resultTitle">Victory</h1><p id="resultDetail"></p><div><button id="rematchButton" class="primary">Fight again</button><button id="rosterButton">Choose fighters</button></div></div>
+    <div id="pauseOverlay" class="result" hidden><p>THE GALLERY CAN WAIT</p><h1>Paused</h1><button id="resumeButton" class="primary">Resume</button></div>
+    <div class="arena-bottom"><span id="arenaName">THE NIGHT GALLERY</span><button id="pauseButton">Pause <kbd>Esc</kbd></button></div>
+  </section>
+  <div id="touchControls" class="touch-controls" aria-label="Touch controls"><div class="touch-directions"><button data-action="left" aria-label="Move left">◀</button><button data-action="right" aria-label="Move right">▶</button><button data-action="dodge">Dodge</button></div><div class="touch-actions"><button data-action="guard">Guard</button><button data-action="light">Light</button><button data-action="heavy">Heavy</button><button data-action="special" class="touch-special">Special</button></div></div>
+  <section class="bench" aria-label="Choose fighters and game mode">
+    <div class="bench-top"><div class="select-side"><span class="small-label">CHOOSE</span><button id="chooseLeft" class="selected">Your knight</button><button id="chooseRight">Opponent</button></div><div class="match-options"><label class="sr-only" for="modeSelect">Game mode</label><select id="modeSelect"><option value="play">Solo duel</option><option value="arcade">Gallery run</option><option value="local">Local duel</option><option value="watch">Watch AI</option></select><label class="sr-only" for="difficultySelect">AI difficulty</label><select id="difficultySelect" aria-label="AI difficulty"><option value="easy">Easy</option><option value="standard" selected>Standard</option><option value="hard">Hard</option></select><button id="fightButton" class="primary">Enter the arena <span>↗</span></button></div></div>
+    <div id="roster" class="roster"></div>
+    <div class="fighter-notes"><div><strong id="fighterTitle">The Gilded Guard</strong><span id="fighterStyle">Patient defense. Punishing shield rush.</span></div><div id="moveNames" class="move-names"></div></div>
+  </section>
+  <footer><div id="controlLegend"><span><kbd>A</kbd><kbd>D</kbd> move</span><span><kbd>J</kbd> light</span><span><kbd>K</kbd> heavy</span><span><kbd>L</kbd> special</span><span><kbd>S</kbd> guard / tap to parry</span><span><kbd>Space</kbd> dodge</span></div><span class="footer-note">First to two rounds.</span></footer>
+  <p id="announcement" class="sr-only" aria-live="polite"></p>
+</main>
+<dialog id="helpDialog"><button id="closeHelp" aria-label="Close how to play" class="close-dialog">×</button><p class="small-label">BRUSH & BLADE</p><h2>A duel of distance and timing.</h2><p>Win two rounds to take the match. Heavy attacks hit harder, but leave you exposed. Step into range, strike, then recover.</p><dl><dt>Move</dt><dd>A / D</dd><dt>Light / heavy / special</dt><dd>J / K / L</dd><dt>Guard</dt><dd>Hold S. Tap just before a hit to parry.</dd><dt>Dodge</dt><dd>Space. Hold a direction to dodge that way.</dd><dt>Pause</dt><dd>Escape</dd></dl><p><b>The three bars:</b> health above, stamina and guard below. Stamina pays for actions and returns while moving or resting. Guard breaks under sustained pressure. The colored special meter fills as you hit and defend; a special costs 60%.</p><p>Van Gogh and Rothko can absorb an interruption late in a heavy swing. They still lose health: guard or dodge, then punish the recovery.</p><p><b>Local player two:</b> ← / → move, ↓ guard, 1 light, 2 heavy, 3 special, 0 dodge. Touch controls work in solo mode.</p><p><b>Gallery run:</b> defeat the other seven knights. Your health resets between matches. Lose a match to retry that opponent.</p><p class="credit">Original pixel-art knights inspired by eight artists, created using image generation. A fictional tournament.</p></dialog>
+<script src="engine.js"></script><script src="assets/sprites.js"></script><script src="assets/sprite-layout.js"></script><script src="assets/fighter-motion.js"></script><script src="game.js"></script>
+</body></html>
