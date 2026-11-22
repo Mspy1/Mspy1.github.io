@@ -229,6 +229,7 @@ div.svc:hover .svc-name{color:inherit}
       <a href="#about" data-i18n="nav_about" data-track="nav:about">About</a>
       <a href="#work" data-i18n="nav_work" data-track="nav:work">Work</a>
       <a href="#lab" data-i18n="nav_lab" data-track="nav:lab">Lab</a>
+      <a href="/games/" data-i18n="nav_games" data-track="nav:games">Games</a>
       <a href="https://mspy1.github.io/" data-i18n="nav_blog" data-track="nav:blog">Blog</a>
       <a href="#contact" data-i18n="nav_contact" data-track="nav:contact">Contact</a>
     </nav>
@@ -413,6 +414,7 @@ div.svc:hover .svc-name{color:inherit}
     <span>© 2026 Mspy1</span>
     <span class="sp"></span>
     <a href="#contact">Impressum</a>
+    <a href="/games/">Games</a>
     <a href="#contact" data-i18n="privacy">Privacy</a>
     <button type="button" class="fbtn" id="cookieSettings" data-i18n="cookie_settings">Cookie settings</button>
     <a href="#contact" rel="nofollow">Admin</a>
@@ -429,7 +431,7 @@ div.svc:hover .svc-name{color:inherit}
 /* English is written directly in the HTML; these are the other languages. */
 const PRO={
  tr:{title:"Mspy1",
-  nav_about:"Hakkımda",nav_work:"Projeler",nav_lab:"Lab",nav_contact:"İletişim",
+  nav_about:"Hakkımda",nav_work:"Projeler",nav_lab:"Lab",nav_games:"Oyunlar",nav_contact:"İletişim",
   hero_eyebrow:"Mspy1 · Modlar, araçlar & web",hero_title:"Oyun modları, scriptler ve web.",
   hero_lead:"Android/Linux ayarları, küçük Windows scriptleri ve web ile uğraşıyorum — çoğunlukla Shell, Batch ve HTML.",
   cta_work:"Projelerime bak",cta_cv:"CV iste",rq_title:"CV iste",rq_lead:"Bilgilerini bırak, CV'mi genelde bir gün içinde mail olarak göndereyim.",rq_name:"Ad Soyad",rq_email:"E-posta",rq_company:"Şirket (opsiyonel)",rq_msg:"Mesaj (opsiyonel)",rq_ok:"Bilgilerimin yalnızca mail uygulamamda açılacak e-postayı hazırlamak için kullanılmasını kabul ediyorum.",rq_send:"Gönder",rq_sent:"Teşekkürler! Talebin mail uygulamanda açılacak; göndermek için orada Gönder'e basmalısın.",rq_err:"Lütfen adını ve geçerli bir e-posta adresini yaz, kutucuğu da işaretle.",rq_many:"Çok fazla deneme yapıldı. Biraz sonra tekrar dene ya da direkt mail at.",rq_fail:"Gönderilemedi. Bana direkt mail atabilirsin.",cta_contact:"İletişime geç",
@@ -456,7 +458,7 @@ const PRO={
   nav_blog:"Blog",
   cs_text:"Ziyaretini sayabilir miyim? Sadece kendi sunucumda tutulan istatistikler: sayfalar, tıklamalar ve sitede geçirilen süre. IP adresi yok, üçüncü taraf yok.",cs_more:"Detaylar",cs_no:"Hayır, teşekkürler",cs_yes:"Kabul et"},
  de:{title:"Mspy1",
-  nav_about:"Über mich",nav_work:"Projekte",nav_lab:"Lab",nav_contact:"Kontakt",
+  nav_about:"Über mich",nav_work:"Projekte",nav_lab:"Lab",nav_games:"Spiele",nav_contact:"Kontakt",
   hero_eyebrow:"Mspy1 · Mods, Tools & Web",hero_title:"Game-Mods, Skripte und das Web.",
   hero_lead:"Ich bastele an Android-/Linux-Tuning, kleinen Windows-Skripten und dem Web — meist Shell, Batch und HTML.",
   cta_work:"Projekte ansehen",cta_cv:"Lebenslauf anfordern",rq_title:"Lebenslauf anfordern",rq_lead:"Hinterlass deine Daten, und ich schicke dir meinen Lebenslauf per E-Mail, meist innerhalb eines Tages.",rq_name:"Name",rq_email:"E-Mail",rq_company:"Unternehmen (optional)",rq_msg:"Nachricht (optional)",rq_ok:"Ich bin einverstanden, dass meine Angaben nur dazu verwendet werden, die in meiner Mail-App zu öffnende E-Mail vorzubereiten.",rq_send:"Anfrage senden",rq_sent:"Danke! Die Anfrage wird in deiner Mail-App geöffnet – drücke dort auf Senden, um sie abzuschließen.",rq_err:"Bitte Namen und eine gültige E-Mail-Adresse angeben und das Kästchen anhaken.",rq_many:"Zu viele Anfragen. Bitte später erneut versuchen oder mir direkt schreiben.",rq_fail:"Senden fehlgeschlagen. Bitte schreib mir direkt per E-Mail.",cta_contact:"Kontakt aufnehmen",
@@ -498,7 +500,7 @@ const GENZ={
   work_open:"run it 🔥",work_code:"peep the code 👀",
   lab_title:"the lab 🔬",lab_lead:"forks, scripts and one archived banger. you can look 💀🔒",
   code_title:"open source era 🐙",code_lead:"small commits, big aura 🔥",
-  contact_title:"slide into my dms 📩",contact_lead:"tuning, scripts, side quests · hit me up 🗿",genz_btn:"unc mode 👔"},
+  contact_title:"slide into my dms 📩",contact_lead:"tuning, scripts, side quests · hit me up 🗿",nav_games:"the game arcade 🎮",genz_btn:"unc mode 👔"},
  tr:{title:"Mspy1",hero_eyebrow:"Mspy1 · modlar, scriptler & web 🥀",hero_title:"kanka kernel ayarlıyor 💀",
   hero_lead:"shell ayarları, batch scriptleri, birkaç fork ve statik bir site. büyük teknoloji yok, küçük kazanmalar var 🗿🔥",
   cta_work:"kanıtları gör 🔥",cta_contact:"dm'den yaz 📩",cta_cv:"lore'u iste 📜",
@@ -513,7 +515,7 @@ const GENZ={
   work_open:"aç kanka 🔥",work_code:"koda bak 👀",
   lab_title:"lab 🔬",lab_lead:"forklar, scriptler ve arşivlenmiş bir efsane. bakabilirsin 💀🔒",
   code_title:"açık kaynak dönemi 🐙",code_lead:"küçük commitler, büyük aura 🔥",
-  contact_title:"dm'den yaz kanka 📩",contact_lead:"ayarlar, scriptler, yan görevler · yaz bana 🗿",genz_btn:"ciddi mod 👔"},
+  contact_title:"dm'den yaz kanka 📩",contact_lead:"ayarlar, scriptler, yan görevler · yaz bana 🗿",nav_games:"oyun arcade'i 🎮",genz_btn:"ciddi mod 👔"},
  de:{title:"Mspy1",hero_eyebrow:"Mspy1 · mods, scripte & web 🥀",hero_title:"Digga tunet Kernel 💀",
   hero_lead:"shell-tweaks, batch-scripte, ein paar forks und eine statische Seite. kein Big Tech, nur kleine Wins 🗿🔥",
   cta_work:"zeig die Receipts 🔥",cta_contact:"slide in die DMs 📩",cta_cv:"die Lore anfragen 📜",
@@ -528,7 +530,7 @@ const GENZ={
   work_open:"starten 🔥",work_code:"Code checken 👀",
   lab_title:"das Labor 🔬",lab_lead:"forks, scripte und ein archivierter Banger. gucken ok 💀🔒",
   code_title:"Open Source Era 🐙",code_lead:"kleine Commits, große Aura 🔥",
-  contact_title:"slide in meine DMs 📩",contact_lead:"tuning, scripte, side quests · schreib mir 🗿",genz_btn:"seriös 👔"}
+  contact_title:"slide in meine DMs 📩",contact_lead:"tuning, scripte, side quests · schreib mir 🗿",nav_games:"die Game-Arena 🎮",genz_btn:"seriös 👔"}
 };
 
 /* ───────── state ───────── */
