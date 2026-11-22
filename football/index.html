@@ -142,6 +142,16 @@ details.opts,#resultArea > .card + .card,.score,#saveResult,#matchDate,#scA,#scB
 </style>
 </head>
 <body>
+<style>
+.msm-backbar{--bg:#ffffff;--ink:#1d1d1f;--ink-2:#424245;--line:#d2d2d7;--blue:#0066cc;--blue-hover:#0077ed;--max:1080px;box-sizing:border-box;position:sticky;top:0;z-index:2147483000;height:48px;display:flex;align-items:center;padding:0 22px;background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:13px;line-height:1;letter-spacing:-.01em;color:var(--ink-2)}
+.msm-backbar *{box-sizing:border-box}
+.msm-backbar .msm-inner{width:100%;max-width:var(--max);margin:0 auto;display:flex;align-items:center;gap:12px}
+.msm-backbar a{color:var(--blue);font-weight:600;text-decoration:none;white-space:nowrap}
+.msm-backbar a:hover{color:var(--blue-hover);text-decoration:underline}
+.msm-backbar .msm-title{margin-left:auto;color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:380px){.msm-backbar{padding:0 14px}.msm-backbar .msm-inner{gap:8px}}
+</style>
+<div class="msm-backbar"><div class="msm-inner"><a href="/games/">← Mspy1 · Games</a><span class="msm-title">Pickup Football Teams</span></div></div>
 <div class="wrap">
   <header>
     <h1 data-i="title"></h1>
