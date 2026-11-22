@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="tr">
 <head>
+<script>(function(){var t="system";try{t=localStorage.getItem("site-theme")||"system"}catch(e){}if(t!=="dark"&&t!=="light"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}var d=document.documentElement;d.setAttribute("data-theme",t);d.setAttribute("data-site-theme",t)})();</script>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1d7444">
@@ -143,7 +145,8 @@ details.opts,#resultArea > .card + .card,.score,#saveResult,#matchDate,#scA,#scB
 </head>
 <body>
 <style>
-.msm-backbar{--bg:#ffffff;--ink:#1d1d1f;--ink-2:#424245;--line:#d2d2d7;--blue:#0066cc;--blue-hover:#0077ed;--max:1080px;box-sizing:border-box;position:sticky;top:0;z-index:2147483000;height:48px;display:flex;align-items:center;padding:0 22px;background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:13px;line-height:1;letter-spacing:-.01em;color:var(--ink-2)}
+.msm-backbar{--bg:#ffffff;--ink:#1d1d1f;--ink-2:#424245;--line:#d2d2d7;--blue:#0066cc;--blue-hover:#0077ed;--bar-bg:rgba(255,255,255,.86);--max:1080px;box-sizing:border-box;position:sticky;top:0;z-index:2147483000;height:48px;display:flex;align-items:center;padding:0 22px;background:var(--bar-bg);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:13px;line-height:1;letter-spacing:-.01em;color:var(--ink-2)}
+html[data-theme="dark"] .msm-backbar,html[data-site-theme="dark"] .msm-backbar{--bg:#0b0b0d;--ink:#f5f5f7;--ink-2:#c8c8ce;--line:#2e2e33;--blue:#5aa9ff;--blue-hover:#7fbcff;--bar-bg:rgba(16,16,19,.86)}
 .msm-backbar *{box-sizing:border-box}
 .msm-backbar .msm-inner{width:100%;max-width:var(--max);margin:0 auto;display:flex;align-items:center;gap:12px}
 .msm-backbar a{color:var(--blue);font-weight:600;text-decoration:none;white-space:nowrap}
