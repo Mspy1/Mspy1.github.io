@@ -1,0 +1,3 @@
+'use strict';
+// Inert source is assigned only to a pre-sandboxed opaque-origin frame.
+(function(){var f=document.querySelector('iframe'),s=document.getElementById('launch-status');function fail(m){f.hidden=true;f.style.display='none';s.textContent=m;s.hidden=false;}fetch('./payload.json',{credentials:'omit'}).then(function(r){if(!r.ok)throw new Error('Local bundle unavailable (HTTP '+r.status+')');return r.json();}).then(function(p){if(!p||typeof p.html!=='string')throw new Error('Invalid bundle');s.hidden=true;s.textContent='';f.hidden=false;f.style.display='block';f.srcdoc=p.html;}).catch(function(e){fail('Unable to load local game bundle: '+(e&&e.message?e.message:'unknown error'));});})();

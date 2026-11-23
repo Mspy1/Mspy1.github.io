@@ -1,12 +1,13 @@
 # Game credits and licenses
 
-The Games hub lists 21 games: 20 vendored snapshots hosted at `/games/` plus
-Pickup Football Teams, which is hosted at `/football/`. The 20 games under
-`/games/` keep their upstream MIT license and copyright notice verbatim (see the
+The Games hub lists 31 games. The original collection contains 20 MIT-licensed
+snapshots under `/games/` plus Pickup Football Teams, hosted at `/football/`.
+The original 20 snapshots keep their upstream MIT license and copyright notice verbatim (see the
 `LICENSE` files alongside them), and their screenshots under `games/thumbs/` are
-covered by the same MIT attribution. Their vendoring patches are limited to site
-chrome (back bar, theme bootstrap) and asset/CDN removal; game logic is otherwise
-unchanged. Pickup Football Teams is the exception: it has no upstream license and
+covered by the same MIT attribution. Not all later additions use those terms;
+see the section below. The original snapshots' vendoring patches are limited to
+site chrome (back bar, theme bootstrap) and asset/CDN removal; game logic is
+otherwise unchanged. Pickup Football Teams is the exception: it has no upstream license and
 is a permission-based copy, and its backend was replaced with `localStorage` (see
 section 10 below).
 
@@ -175,7 +176,28 @@ section 10 below).
 
 ## Shared local patch — back bar
 
-Every one of the 21 game pages (plus the wavde hub) carries a slim site-styled
-bar at the top: `← Mspy1 · Games` linking to `/games/` with the page title on
-the right. It is inlined from `games/backbar-snippet.html`. This is a navigational
-containment bar only; no game UI or logic is altered by it.
+Every one of the original 21 game pages (plus the wavde hub) carries a slim
+site-styled bar at the top: `← Mspy1 · Games` linking to `/games/` with the
+page title on the right. It is inlined from `games/backbar-snippet.html`. This
+is a navigational containment bar only; no game UI or logic is altered by it.
+The additional games use the same navigation pattern with game-specific chrome
+documented in their individual notices.
+
+## Additional browser games
+
+These titles are not covered by the MIT terms above. See each snapshot for its pinned revision, source, local changes, credits and asset notices.
+
+| Game | Upstream | Main terms | Details |
+|---|---|---|---|
+| shapez | [tobspr-games/shapez.io](https://github.com/tobspr-games/shapez.io) | GPL-3.0 · Browser demo | [Snapshot and notices](shapez/VENDORED.md) |
+| Elevator Saga | [magwo/elevatorsaga](https://github.com/magwo/elevatorsaga) | MIT · Magnus Wolffelt and contributors | [Snapshot and notices](elevator-saga/VENDORED.md) |
+| Space Huggers | [KilledByAPixel/SpaceHuggers](https://github.com/KilledByAPixel/SpaceHuggers) | GPL-3.0 · Frank Force | [Snapshot and notices](space-huggers/VENDORED.md) |
+| A Dark Room | [doublespeakgames/adarkroom](https://github.com/doublespeakgames/adarkroom) | MPL-2.0 · Doublespeak Games | [Snapshot and notices](a-dark-room/VENDORED.md) |
+| n-gon | [landgreen/n-gon](https://github.com/landgreen/n-gon) | GPL-3.0 · landgreen and contributors | [Snapshot and notices](n-gon/VENDORED.md) |
+| City Simulator | [graememcc/micropolisJS](https://github.com/graememcc/micropolisJS) | GPL-3.0 with additional terms · Modified city simulator | [Snapshot and notices](city-simulator/VENDORED.md) |
+| Evolve | [pmotschmann/Evolve](https://github.com/pmotschmann/Evolve) | MPL-2.0 · Evolve contributors | [Snapshot and notices](evolve/VENDORED.md) |
+| PLOP | [Caltrop256/plop](https://github.com/Caltrop256/plop) | GPL-3.0 · Caltrop256 | [Snapshot and notices](plop/VENDORED.md) |
+| Untrusted | [AlexNisnevich/untrusted](https://github.com/AlexNisnevich/untrusted) | CC BY-NC-SA 3.0 · Alex Nisnevich and Greg Shuflin | [Snapshot and notices](untrusted/VENDORED.md) |
+| HyperRogue | [zenorogue/hyperrogue](https://github.com/zenorogue/hyperrogue) | GPL-2.0 · HyperRogue contributors | [Snapshot and notices](hyperrogue/VENDORED.md) |
+
+City Simulator is a modified edition, not an official release. Micropolis is a registered trademark of [Micropolis Corporation (Micropolis GmbH)](https://www.micropolis.com/) and is licensed here as a courtesy of the owner under the Micropolis Public Name License. See the local [city simulation notices](city-simulator/VENDORED.md).

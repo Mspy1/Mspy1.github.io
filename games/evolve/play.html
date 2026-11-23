@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Evolve</title>
+    <meta http-equiv="Content-type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="evolved-light.ico" type="images/x-icon" media="(prefers-color-scheme:dark)">
+    <link rel="icon" href="evolved.ico" type="images/x-icon" media="(prefers-color-scheme:light)">
+    <link rel="icon" href="evolved.ico" type="images/x-icon" media="(prefers-color-scheme:no-preference)">
+    <link rel="stylesheet" href="lib/buefy.min.0.9.22.css">
+    <link rel="stylesheet" type="text/css" href="lib/weather-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="evolve/evolve.css">
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/vue.min.js"></script>
+    <script src="lib/buefy.min.js"></script>
+    <script src="lib/popper.min.js"></script>
+    <script src="lib/Sortable.min.js"></script>
+    <script src="lib/chart.min.js"></script>
+    <script src="lib/lz-string.min.js"></script>
+    <script src="evolve/main.js" type="module"></script>
+</head>
+<body>
+    <style>
+        .loading {
+            text-align: center;
+            margin-top: 10rem;
+        }
+        .lds-dual-ring {
+            display: inline-block;
+            width: 64px;
+            height: 64px;
+        }
+        .lds-dual-ring:after {
+            content: " ";
+            display: block;
+            width: 5rem;
+            height: 5rem;
+            margin: 1px;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            border-color: #fff transparent #fff transparent;
+            animation: lds-dual-ring 1.2s linear infinite;
+            }
+            @keyframes lds-dual-ring {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    <div class="loading"><div class="lds-dual-ring"></div></div>
+
+
+</body>
+</html>
