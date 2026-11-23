@@ -44,7 +44,8 @@ inline data-URI favicon below. It is an identifier, not a fetched resource.
 1. **Theme bootstrap script** added as the first child of `<head>` of
    `index.html`. It reads `localStorage.site-theme` before paint and sets
    `data-site-theme` (and `data-theme`, which this game does not otherwise use)
-   on `<html>`, falling back to the OS `prefers-color-scheme` (system default).
+   on `<html>`, defaulting to `dark` when no choice is stored (a stored `system`
+   still falls back to the OS `prefers-color-scheme`).
    This lets the shared back bar theme dark without touching the game's own
    fixed dark UI. No game logic changed.
 2. **Back bar** injected immediately after the opening `<body>` tag of

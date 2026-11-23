@@ -33,7 +33,8 @@ byte identical to the pinned upstream `index.html` (verified by reversing the
 edits and comparing SHA-256).
 
 1. **Head script (before paint).** Inserted immediately after `<head>` a tiny
-   inline script that reads `localStorage.site-theme` (defaulting to the system
+   inline script that reads `localStorage.site-theme` (defaulting to `dark` when
+   no choice is stored, while a stored `system` still resolves via the system
    `prefers-color-scheme`) and sets `html[data-site-theme]` before first paint.
    Only `data-site-theme` is set — Roomwright does not use `data-theme` for its
    own UI — so the game cannot be affected by the site theme.

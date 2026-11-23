@@ -86,8 +86,9 @@ No CDN, font, or analytics links existed upstream, so **nothing was stripped**.
 Only `index.html` was modified after the build:
 
 1. **Theme head script** — a tiny inline `<script>` inserted as the first child
-   of `<head>`. It reads `localStorage.site-theme`, falls back to the system
-   `prefers-color-scheme`, and sets `data-site-theme` on `<html>` before first
+   of `<head>`. It reads `localStorage.site-theme`, defaults to `dark` when no
+   choice is stored (a stored `system` still resolves via the system
+   `prefers-color-scheme`), and sets `data-site-theme` on `<html>` before first
    paint so the back bar paints in the correct theme without a flash. It sets
    only `data-site-theme` (not `data-theme`) so it cannot collide with any
    game-owned theming.

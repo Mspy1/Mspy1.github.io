@@ -41,7 +41,8 @@ snapshot. Known changes relative to upstream `web/index.html`:
    `/games/` was injected immediately after the opening `<body>` tag, using the
    same inline token/style pattern as the other game pages.
 5. **Head theme bootstrap.** An inline script before paint sets
-   `data-theme`/`data-site-theme` from `localStorage.site-theme` (falling back to
+   `data-theme`/`data-site-theme` from `localStorage.site-theme` (defaulting to
+   `dark` when no choice is stored, while a stored `system` still resolves via
    the system `prefers-color-scheme`).
 
 The app title on the back bar is `Pickup Football Teams`; the page is linked from

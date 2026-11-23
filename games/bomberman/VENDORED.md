@@ -65,11 +65,12 @@ page load.
 2. **Head script** added as the first element inside `<head>`:
 
    ```html
-   <script>(function(){var t="system";try{t=localStorage.getItem("site-theme")||"system"}catch(e){}if(t!=="dark"&&t!=="light"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}var d=document.documentElement;d.setAttribute("data-site-theme",t)})();</script>
+   <script>(function(){var t="dark";try{t=localStorage.getItem("site-theme")||"dark"}catch(e){}if(t==="system"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}else if(t!=="dark"&&t!=="light"){t="dark"}var d=document.documentElement;d.setAttribute("data-site-theme",t)})();</script>
    ```
 
-   It reads `localStorage.site-theme` before paint (system default resolved via
-   `prefers-color-scheme`). It sets **only** `data-site-theme` — not
+   It reads `localStorage.site-theme` before paint, defaulting to `dark` when no
+   choice is stored (a stored `system` still resolves via `prefers-color-scheme`).
+   It sets **only** `data-site-theme` — not
    `data-theme` — so it cannot collide with any game-owned theme attribute;
    the shared back bar CSS responds to `html[data-site-theme="dark"]`.
 
