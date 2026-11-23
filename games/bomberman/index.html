@@ -1,0 +1,521 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+  <script>(function(){var t="system";try{t=localStorage.getItem("site-theme")||"system"}catch(e){}if(t!=="dark"&&t!=="light"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}var d=document.documentElement;d.setAttribute("data-site-theme",t)})();</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <title>Bomberman — Neon Arena</title>
+  <script type="module" crossorigin src="./assets/index-CoMeCz8l.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BM1FyGJJ.css">
+</head>
+<body>
+<style>
+.msm-backbar{--bg:#ffffff;--bg-alt:#f5f5f7;--ink:#1d1d1f;--ink-2:#424245;--muted:#6e6e73;--line:#d2d2d7;--blue:#0066cc;--blue-hover:#0077ed;--bar-bg:rgba(255,255,255,.86);--max:1080px;--ease:cubic-bezier(.22,.61,.36,1);box-sizing:border-box;position:sticky;top:0;z-index:2147483000;height:48px;display:flex;align-items:center;padding:0 22px;background:var(--bar-bg);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:13px;line-height:1;letter-spacing:-.01em;color:var(--ink-2)}
+html[data-theme="dark"] .msm-backbar,html[data-site-theme="dark"] .msm-backbar{--bg:#0b0b0d;--bg-alt:#161619;--ink:#f5f5f7;--ink-2:#c8c8ce;--muted:#9b9ba3;--line:#2e2e33;--blue:#5aa9ff;--blue-hover:#7fbcff;--bar-bg:rgba(16,16,19,.86)}
+.msm-backbar *{box-sizing:border-box}
+.msm-backbar .msm-inner{width:100%;max-width:var(--max);margin:0 auto;display:flex;align-items:center;gap:12px}
+.msm-backbar a{color:var(--blue);font-weight:600;text-decoration:none;white-space:nowrap}
+.msm-backbar a:hover{color:var(--blue-hover);text-decoration:underline}
+.msm-backbar .msm-title{margin-left:auto;color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:380px){.msm-backbar{padding:0 14px}.msm-backbar .msm-inner{gap:8px}}
+</style>
+<div class="msm-backbar"><div class="msm-inner"><a href="/games/">← Mspy1 · Games</a><span class="msm-title">Bomberman</span></div></div>
+  <div id="app">
+    <!-- The game board. The renderer scales this for devicePixelRatio. -->
+    <canvas id="board"></canvas>
+
+    <!-- Decorative arena artwork used behind menus and round results. All
+         meaningful copy remains live HTML in the panels below. -->
+    <div class="splash-backdrop" id="splash-backdrop" aria-hidden="true">
+      <img
+        class="splash-art"
+        data-arena-visual="neon"
+        src="./splashes/neon-reactor.webp"
+        alt=""
+        width="1600"
+        height="900"
+        decoding="async"
+        fetchpriority="high"
+      />
+      <img
+        class="splash-art"
+        data-arena-visual="foundry"
+        src="./splashes/magma-foundry.webp"
+        alt=""
+        width="1600"
+        height="900"
+        decoding="async"
+      />
+      <img
+        class="splash-art"
+        data-arena-visual="frost"
+        src="./splashes/cryo-circuit.webp"
+        alt=""
+        width="1600"
+        height="900"
+        decoding="async"
+      />
+      <img
+        class="splash-art"
+        data-arena-visual="astral"
+        src="./splashes/astral-garden.webp"
+        alt=""
+        width="1600"
+        height="900"
+        decoding="async"
+      />
+      <img
+        class="splash-art"
+        data-arena-visual="tidal"
+        src="./splashes/tidal-works.webp"
+        alt=""
+        width="1600"
+        height="900"
+        decoding="async"
+      />
+    </div>
+
+    <!-- ============================ MAIN MENU ============================ -->
+    <section class="screen" id="screen-menu" data-screen="menu">
+      <div class="menu-hero">
+        <header class="menu-hero-head">
+          <h1 class="logo">BOMB<span class="logo-accent">ER</span>MAN</h1>
+          <p class="tagline">Lokal 1&ndash;2 Spieler &middot; Online 2&ndash;4 Spieler</p>
+        </header>
+
+        <div class="mode-cards">
+          <button class="mode-card" id="btn-goto-local">
+            <span class="mode-card-icon" aria-hidden="true">🎮</span>
+            <span class="mode-card-body">
+              <strong>Lokal spielen</strong>
+              <span>Couch-Modus für 1&ndash;2 Spieler &mdash; mit oder gegen Bots.</span>
+            </span>
+            <span class="mode-card-arrow" aria-hidden="true">&#8594;</span>
+          </button>
+          <button class="mode-card" id="btn-goto-online">
+            <span class="mode-card-icon" aria-hidden="true">🌐</span>
+            <span class="mode-card-body">
+              <strong>Online spielen</strong>
+              <span>Private Lobby mit Raumcode für 2&ndash;4 Spieler.</span>
+            </span>
+            <span class="mode-card-arrow" aria-hidden="true">&#8594;</span>
+          </button>
+        </div>
+
+        <div class="menu-foot">
+          <button class="btn btn-ghost" id="btn-goto-help">Steuerung &amp; Power-ups</button>
+          <p class="footer-note">Lege Bomben, sprenge Mauern, sammle Power-ups &amp; sei der Letzte, der steht.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================== HELP / MANUAL ========================= -->
+    <section class="screen" id="screen-help" data-screen="help">
+      <div class="panel help-panel">
+        <h2>Steuerung &amp; Power-ups</h2>
+
+        <div class="legend">
+          <h3>Steuerung (lokal)</h3>
+          <table class="legend-table">
+            <thead>
+              <tr><th>Spieler</th><th>Bewegen</th><th>Bombe</th><th>Fernzünder</th><th>Werfen</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="dot" style="--c:#ff5470"></span>Rot</td><td>W A S D</td><td>Leertaste</td><td>Linke Shift</td><td>E</td></tr>
+              <tr><td><span class="dot" style="--c:#3fb6ff"></span>Blau</td><td>Pfeiltasten</td><td>Enter</td><td>Rechte Shift</td><td>Rechte Strg</td></tr>
+            </tbody>
+          </table>
+          <p class="legend-action-note"><strong>Getrennte Aktionen:</strong> Fernzünder und Bombenwerfen haben eigene Tasten.</p>
+        </div>
+
+        <div class="legend powerups-legend">
+          <h3>Power-ups</h3>
+          <ul class="pu-list">
+            <li><span class="pu-ic" style="--c:#ff5470">💣</span>Mehr Bomben</li>
+            <li><span class="pu-ic" style="--c:#ffcf3f">🔥</span>Reichweite</li>
+            <li><span class="pu-ic" style="--c:#5dd95d">⚡</span>Tempo</li>
+            <li><span class="pu-ic" style="--c:#b98cff">👻</span>Geist &middot; durch Mauern (kurz)</li>
+            <li><span class="pu-ic" style="--c:#ff8a3f">💥</span>Durchschlag</li>
+            <li><span class="pu-ic" style="--c:#3fe0ff">🛡</span>Schild</li>
+            <li><span class="pu-ic" style="--c:#ff7ed4">🦵</span>Bomben kicken</li>
+            <li><span class="pu-ic" style="--c:#8fe7ff">📡</span>Fernzünder · Shift</li>
+            <li><span class="pu-ic" style="--c:#f4a8ff">🧤</span>Werfen · E / Rechte Strg</li>
+          </ul>
+        </div>
+
+        <div class="legend arena-guide">
+          <h3>Tidal Works: Strömungskanäle</h3>
+          <p>Alle vier Sekunden schiebt eine Strömung Spieler und liegende Bomben ein Feld weiter. Die Pfeile leuchten vorher 1,2 Sekunden auf und zeigen die Richtung. Nach jedem Schub kehrt sie sich um.</p>
+          <p>Mauern und belegte Felder stoppen den Schub. Betäubte Spieler bleiben stehen. Verlasse den Kanal rechtzeitig oder nutze die Strömung, um Bomben umzuplatzieren.</p>
+        </div>
+
+        <div class="row-buttons">
+          <button class="btn btn-ghost" data-back>Zurück</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================== LOCAL SETUP =========================== -->
+    <section class="screen" id="screen-local" data-screen="local">
+      <div class="panel setup-panel">
+        <h2>Lokales Spiel</h2>
+        <div class="setup-grid">
+          <aside class="setup-side">
+            <h3 class="setup-side-title">Aufgebot</h3>
+            <ul class="roster-preview" id="local-roster" aria-live="polite"></ul>
+            <p class="field-hint" id="local-roster-hint" aria-live="polite"></p>
+          </aside>
+
+          <div class="setup-form">
+            <h3 class="setup-group-title">Spieler</h3>
+            <div class="field">
+              <label>Menschliche Spieler</label>
+              <div class="seg" id="seg-players" role="group" aria-label="Anzahl menschlicher Spieler, lokal maximal zwei">
+                <button class="seg-btn" data-val="1">1</button>
+                <button class="seg-btn is-active" data-val="2">2</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Bots</label>
+              <div class="seg" id="seg-bots-local" role="group" aria-label="Anzahl Bots">
+                <button class="seg-btn is-active" data-val="0">0</button>
+                <button class="seg-btn" data-val="1">1</button>
+                <button class="seg-btn" data-val="2">2</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Modus</label>
+              <select class="text-input" id="sel-mode-local">
+                <option value="ffa">Jeder gegen jeden</option>
+                <option value="teams">2 gegen 2</option>
+              </select>
+            </div>
+
+            <h3 class="setup-group-title">Spielregeln</h3>
+            <div class="field">
+              <label>Siege zum Spielgewinn</label>
+              <div class="seg" id="seg-wins-local" role="group" aria-label="Runden zum Sieg">
+                <button class="seg-btn" data-val="1">1</button>
+                <button class="seg-btn is-active" data-val="3">3</button>
+                <button class="seg-btn" data-val="5">5</button>
+              </div>
+            </div>
+
+            <div class="field rules-grid">
+              <label>Arena
+                <select class="text-input" id="sel-arena-local">
+                  <option value="shuffle">Zufällig</option>
+                  <option value="classic">Neon Reactor</option>
+                  <option value="crossroads">Magma Foundry</option>
+                  <option value="citadel">Cryo Circuit</option>
+                  <option value="switchyard">Switchyard</option>
+                  <option value="starfall">Astral Garden</option>
+                  <option value="tidal">Tidal Works</option>
+                </select>
+              </label>
+              <label>Power-ups
+                <select class="text-input" id="sel-powerups-local">
+                  <option value="low">Wenige</option>
+                  <option value="normal" selected>Normal</option>
+                  <option value="high">Viele</option>
+                </select>
+              </label>
+              <label>Bot-Stärke
+                <select class="text-input" id="sel-bot-difficulty-local">
+                  <option value="easy">Leicht</option>
+                  <option value="normal" selected>Normal</option>
+                  <option value="hard">Schwer</option>
+                </select>
+              </label>
+              <label>Sudden Death
+                <select class="text-input" id="sel-sudden-local">
+                  <option value="45">45 Sekunden</option>
+                  <option value="60">60 Sekunden</option>
+                  <option value="90" selected>90 Sekunden</option>
+                  <option value="120">120 Sekunden</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="row-buttons">
+              <button class="btn btn-ghost" data-back>Zurück</button>
+              <button class="btn btn-primary" id="btn-start-local">Start</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================== ONLINE LOBBY ========================== -->
+    <section class="screen" id="screen-online" data-screen="online">
+      <div class="panel online-panel">
+        <h2>Online spielen</h2>
+
+        <!-- Connection / setup sub-view (before we are in a room) -->
+        <div id="online-setup">
+          <div class="field">
+            <label for="inp-name">Dein Name</label>
+            <input class="text-input" id="inp-name" type="text" maxlength="12" placeholder="Spieler" autocomplete="nickname" />
+          </div>
+
+          <div class="online-entry-actions" id="online-entry-actions" aria-label="Online-Spiel auswählen">
+            <button class="entry-card" id="btn-show-join" aria-controls="online-join-form" aria-expanded="false">
+              <strong>Spiel beitreten</strong>
+              <span>Raumcode vom Host eingeben</span>
+            </button>
+            <button class="entry-card entry-card-primary" id="btn-create-room">
+              <strong>Spiel erstellen</strong>
+              <span>Private Lobby aufmachen und Code teilen</span>
+            </button>
+          </div>
+
+          <section class="online-flow-card" id="online-join-form" aria-labelledby="online-join-title" hidden>
+            <div class="online-flow-heading">
+              <div>
+                <h3 id="online-join-title">Spiel beitreten</h3>
+                <p>Gib den vierstelligen Raumcode ein.</p>
+              </div>
+              <button class="btn btn-ghost btn-tiny" id="btn-close-join" type="button" aria-label="Beitreten schließen">Zurück</button>
+            </div>
+            <div class="join-row">
+              <label class="sr-only" for="inp-code">Raumcode</label>
+              <input class="text-input code-input" id="inp-code" type="text" maxlength="4" minlength="4" pattern="[A-Za-z0-9]{4}" placeholder="CODE" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="join-code-hint" />
+              <button class="btn btn-secondary" id="btn-join-room">Beitreten</button>
+            </div>
+            <p class="online-flow-hint" id="join-code-hint">Den Code erhältst du vom Host.</p>
+          </section>
+
+          <section class="online-flow-card" id="online-takeover-form" aria-labelledby="online-takeover-title" hidden>
+            <div class="online-flow-heading">
+              <div>
+                <h3 id="online-takeover-title">Character übernehmen</h3>
+                <p>Das Spiel läuft bereits. Wähle einen Bot, den du direkt steuerst.</p>
+              </div>
+              <button class="btn btn-ghost btn-tiny" id="btn-close-takeover" type="button" aria-label="Character-Auswahl schließen">Abbrechen</button>
+            </div>
+            <div class="takeover-options" id="takeover-options"></div>
+          </section>
+
+
+          <div class="row-buttons">
+            <button class="btn btn-ghost" data-back>Zurück</button>
+          </div>
+        </div>
+
+        <!-- Room sub-view (after JOINED) -->
+        <div id="online-room" class="online-room" hidden>
+          <header class="lobby-header">
+            <div>
+              <span class="lobby-eyebrow">PRIVATE LOBBY</span>
+              <h2>Dein Spielraum</h2>
+              <p>Spieler können jederzeit über den Code beitreten.</p>
+            </div>
+            <div class="room-code-box">
+              <span class="room-code-label">Raumcode</span>
+              <span class="room-code" id="room-code-value">----</span>
+              <button class="btn btn-tiny" id="btn-copy-code" title="Einladungslink kopieren" aria-label="Einladungslink kopieren">Link kopieren</button>
+            </div>
+          </header>
+
+          <div class="lobby-layout">
+            <section class="lobby-card lobby-roster-card" aria-labelledby="lobby-roster-title">
+              <div class="lobby-card-heading">
+                <div>
+                  <span class="lobby-step">01</span>
+                  <h3 id="lobby-roster-title">Spieler &amp; Bots</h3>
+                </div>
+                <span class="lobby-capacity" id="lobby-capacity">1 / 4</span>
+              </div>
+              <ul class="player-list" id="lobby-players"></ul>
+              <div class="lobby-bot-controls" id="lobby-bot-controls">
+                <button class="btn btn-ghost btn-tiny" id="btn-remove-bot" type="button" aria-label="Bot entfernen">−</button>
+                <span><strong id="lobby-bot-count">0</strong> Bots</span>
+                <button class="btn btn-secondary btn-tiny" id="btn-add-bot" type="button">+ Bot</button>
+              </div>
+              <p class="lobby-roster-note" id="lobby-roster-note">Freie Plätze werden sofort synchronisiert.</p>
+            </section>
+
+            <section class="lobby-card lobby-settings-card" aria-labelledby="lobby-settings-title">
+              <div class="lobby-card-heading">
+                <div>
+                  <span class="lobby-step">02</span>
+                  <h3 id="lobby-settings-title">Spieleinstellungen</h3>
+                </div>
+                <span class="lobby-live-badge">LIVE</span>
+              </div>
+              <p class="lobby-settings-note" id="lobby-settings-note">Nur der Host kann Einstellungen ändern.</p>
+              <div class="lobby-settings-grid">
+                <label>Modus
+                  <select class="text-input" id="lobby-mode">
+                    <option value="ffa">Jeder gegen jeden</option>
+                    <option value="teams">2 gegen 2</option>
+                  </select>
+                </label>
+                <label>Siege
+                  <select class="text-input" id="lobby-wins">
+                    <option value="1">1 Sieg</option>
+                    <option value="3">3 Siege</option>
+                    <option value="5">5 Siege</option>
+                  </select>
+                </label>
+                <label>Power-ups
+                  <select class="text-input" id="lobby-powerups">
+                    <option value="low">Wenige</option>
+                    <option value="normal">Normal</option>
+                    <option value="high">Viele</option>
+                  </select>
+                </label>
+                <label>Bot-Stärke
+                  <select class="text-input" id="lobby-bot-difficulty">
+                    <option value="easy">Leicht</option>
+                    <option value="normal">Normal</option>
+                    <option value="hard">Schwer</option>
+                  </select>
+                </label>
+                <label>Sudden Death
+                  <select class="text-input" id="lobby-sudden">
+                    <option value="45">45 Sekunden</option>
+                    <option value="60">60 Sekunden</option>
+                    <option value="90">90 Sekunden</option>
+                    <option value="120">120 Sekunden</option>
+                  </select>
+                </label>
+              </div>
+
+              <fieldset class="map-rotation">
+                <legend>Map-Rotation <span>Reihenfolge der Runden</span></legend>
+                <div class="map-preview-grid" id="lobby-map-rotation">
+                  <button class="map-preview" type="button" data-arena="classic" aria-pressed="true">
+                    <img src="./splashes/neon-reactor.webp" alt="" />
+                    <span class="map-order">1</span><strong>Neon Reactor</strong>
+                  </button>
+                  <button class="map-preview" type="button" data-arena="crossroads" aria-pressed="true">
+                    <img src="./splashes/magma-foundry.webp" alt="" />
+                    <span class="map-order">2</span><strong>Magma Foundry</strong>
+                  </button>
+                  <button class="map-preview" type="button" data-arena="citadel" aria-pressed="true">
+                    <img src="./splashes/cryo-circuit.webp" alt="" />
+                    <span class="map-order">3</span><strong>Cryo Circuit</strong>
+                  </button>
+                  <button class="map-preview" type="button" data-arena="switchyard" aria-pressed="true">
+                    <img src="./splashes/neon-reactor.webp" alt="" />
+                    <span class="map-order">4</span><strong>Switchyard</strong>
+                  </button>
+                  <button class="map-preview" type="button" data-arena="starfall" aria-pressed="true">
+                    <img src="./splashes/astral-garden.webp" alt="" />
+                    <span class="map-order">5</span><strong>Astral Garden</strong>
+                  </button>
+                  <button class="map-preview" type="button" data-arena="tidal" aria-pressed="true" title="Tidal Works: Wechselnde Strömungen verschieben Spieler und Bomben">
+                    <img src="./splashes/tidal-works.webp" alt="" />
+                    <span class="map-order">6</span><strong>Tidal Works</strong>
+                  </button>
+                </div>
+              </fieldset>
+            </section>
+          </div>
+
+          <footer class="lobby-footer">
+            <div>
+              <p class="lobby-hint" id="lobby-hint"></p>
+              <p class="lobby-rules" id="lobby-rules"></p>
+            </div>
+            <div class="row-buttons">
+              <button class="btn btn-ghost" id="btn-leave-room">Verlassen</button>
+              <button class="btn btn-secondary" id="btn-ready">Bereit</button>
+              <button class="btn btn-primary" id="btn-start-online" disabled hidden>Spiel starten</button>
+            </div>
+          </footer>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== HUD ============================== -->
+    <section class="screen screen-overlayless" id="screen-hud" data-screen="hud">
+      <div class="hud-bar">
+        <div class="hud-players" id="hud-players"></div>
+        <div class="hud-center">
+          <div class="hud-arena" id="hud-arena">Neon Reactor</div>
+          <div class="hud-round" id="hud-round">Runde 1</div>
+          <div class="hud-timer" id="hud-timer"></div>
+        </div>
+        <div class="hud-ping" id="hud-ping" title="Netzwerkdiagnose zum Spielserver" hidden>
+          <span class="hud-ping-dot" aria-hidden="true"></span>
+          <span class="hud-net-metric hud-net-primary"><span>PING</span><b id="hud-ping-value">—</b></span>
+          <span class="hud-net-metric"><span>JIT</span><b id="hud-jitter-value">—</b></span>
+          <span class="hud-net-metric"><span>LOSS</span><b id="hud-loss-value">—</b></span>
+          <svg class="hud-net-chart" viewBox="0 0 72 22" preserveAspectRatio="none" aria-hidden="true">
+            <polyline id="hud-net-line" points=""></polyline>
+          </svg>
+        </div>
+        <button class="btn btn-ghost btn-tiny" id="btn-sound" title="Ton an/aus">🔊</button>
+        <button class="btn btn-ghost btn-tiny" id="btn-quit">Beenden</button>
+      </div>
+      <aside class="game-controls" id="game-controls" aria-labelledby="game-controls-title">
+        <h2 id="game-controls-title">Steuerung</h2>
+        <section class="controls-player" aria-label="Steuerung Spieler 1">
+          <h3><span class="controls-dot controls-dot-p1" aria-hidden="true"></span>Spieler 1</h3>
+          <dl>
+            <div><dt>Bewegen</dt><dd><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></dd></div>
+            <div><dt>Bombe</dt><dd><kbd>Leertaste</kbd></dd></div>
+            <div><dt>Fernzünder</dt><dd><kbd>Linke Shift</kbd></dd></div>
+            <div><dt>Werfen</dt><dd><kbd>E</kbd></dd></div>
+          </dl>
+        </section>
+        <section class="controls-player" id="controls-player-2" aria-label="Steuerung Spieler 2" hidden>
+          <h3><span class="controls-dot controls-dot-p2" aria-hidden="true"></span>Spieler 2</h3>
+          <dl>
+            <div><dt>Bewegen</dt><dd><kbd aria-label="Pfeiltasten">Pfeile</kbd></dd></div>
+            <div><dt>Bombe</dt><dd><kbd>Enter</kbd></dd></div>
+            <div><dt>Fernzünder</dt><dd><kbd>Rechte Shift</kbd></dd></div>
+            <div><dt>Werfen</dt><dd><kbd>Rechte Strg</kbd></dd></div>
+          </dl>
+        </section>
+        <p class="controls-spectator-note" id="controls-spectator-note" aria-live="polite">
+          <strong>Tot:</strong> Bewegen = Geist · Bombe = Stun-Bombe · Fernzünder/Werfen = Jubel (<span id="spectator-charge-count">3</span>×)
+        </p>
+      </aside>
+      <div class="sudden-death-banner" id="sudden-death" hidden>⚠ SUDDEN DEATH ⚠</div>
+    </section>
+
+    <!-- ============================= RESULT ============================= -->
+    <section class="screen" id="screen-result" data-screen="result">
+      <div class="panel result-panel">
+        <div class="result-arena" id="result-arena">Neon Reactor</div>
+        <h2 id="result-title">Runde vorbei</h2>
+        <div class="result-winner" id="result-winner"></div>
+        <div class="result-scores" id="result-scores"></div>
+        <div class="row-buttons">
+          <button class="btn btn-ghost" id="btn-result-menu">Menü</button>
+          <button class="btn btn-primary" id="btn-rematch">Revanche</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= MOBILE CONTROLS ========================= -->
+    <div class="mobile-controls" id="mobile-controls" hidden>
+      <p class="mobile-spectator-hint" id="mobile-spectator-hint" aria-live="polite" hidden></p>
+      <!-- D-Pad -->
+      <div class="dpad" id="dpad">
+        <button class="dpad-btn dpad-up" data-dir="up" aria-label="Hoch">▲</button>
+        <button class="dpad-btn dpad-left" data-dir="left" aria-label="Links">◀</button>
+        <button class="dpad-btn dpad-right" data-dir="right" aria-label="Rechts">▶</button>
+        <button class="dpad-btn dpad-down" data-dir="down" aria-label="Runter">▼</button>
+      </div>
+      <div class="mobile-actions">
+        <button class="action-btn throw-btn" id="throw-btn" data-action="throw" aria-label="Bombe werfen">🧤</button>
+        <button class="action-btn remote-btn" id="action-btn" data-action="remote" aria-label="Fernzünder auslösen">📡</button>
+        <button class="bomb-btn" id="bomb-btn" aria-label="Bombe">💣</button>
+      </div>
+    </div>
+
+    <!-- ============================= TOAST ============================= -->
+    <div class="toast" id="toast" hidden></div>
+  </div>
+
+</body>
+</html>

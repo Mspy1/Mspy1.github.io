@@ -1,6 +1,6 @@
 # Game credits and licenses
 
-The 17 games hosted at `/games/` are vendored snapshots of open-source projects.
+The 21 games hosted at `/games/` are vendored snapshots of open-source projects.
 Each keeps its upstream MIT license and copyright notice verbatim (see the
 `LICENSE` files alongside the games). No game logic was modified. Screenshots of
 the games under `games/thumbs/` are covered by the same MIT attribution.
@@ -12,6 +12,10 @@ the games under `games/thumbs/` are covered by the same MIT attribution.
 | 3 | Fancy, the Banana | [lfcfoundry/fancy-banana](https://github.com/lfcfoundry/fancy-banana) | MIT | Copyright (c) 2026 LFC Foundry |
 | 4 | 12-game bundle | [wavde/games](https://github.com/wavde/games) | MIT | Copyright (c) 2026 Tejas Wavde |
 | 5 | Brush & Blade | [emollick/brush-and-blade](https://github.com/emollick/brush-and-blade) | MIT | Copyright (c) 2026 Ethan Mollick |
+| 6 | Bomberman Web | [LoggeL/bomberman-web](https://github.com/LoggeL/bomberman-web) | MIT | © 2026 bomberman-web contributors |
+| 7 | Tank Battle | [Jingzhe0915/tank-battle](https://github.com/Jingzhe0915/tank-battle) | MIT | © 2026 Jingzhe0915 |
+| 8 | Craterfall | [blueRonyHazard/craterfall-the-game](https://github.com/blueRonyHazard/craterfall-the-game) | MIT | © 2026 Craterfall contributors |
+| 9 | Roomwright | [pyros-projects/roomwright](https://github.com/pyros-projects/roomwright) | MIT | © 2026 pyros-projects |
 
 ## 1. Solitaire
 
@@ -86,9 +90,69 @@ the games under `games/thumbs/` are covered by the same MIT attribution.
   after the opening `<body>` tag of `games/brush-and-blade/index.html`. Game
   logic untouched; no runtime external requests introduced.
 
+## 6. Bomberman Web
+
+- **Upstream:** https://github.com/LoggeL/bomberman-web
+- **Pinned commit:** `5436b40300b6cbd4f6fb411af4ef52955d7995c7`
+- **License:** `MIT · © 2026 bomberman-web contributors`. Upstream `LICENSE`
+  copied verbatim to `games/bomberman/LICENSE`.
+- **Local files:** `games/bomberman/` — the vendored `dist/` output of the
+  one-time Vite build (`npm ci && npm run build`), with `base` set so the assets
+  resolve under `/games/bomberman/`. Built in local-multiplayer mode only.
+- **Local patches:** no runtime CDN, font or analytics requests; injected the
+  themed back bar linking to `/games/` and a head script that sets
+  `data-site-theme` from `localStorage.site-theme` before paint, leaving the
+  game's own `data-theme` untouched. Game logic unchanged. Full build, audit
+  and patch detail is in `games/bomberman/VENDORED.md`.
+
+## 7. Tank Battle
+
+- **Upstream:** https://github.com/Jingzhe0915/tank-battle
+- **Pinned commit:** `72bd27c167704403fdf84280efa70fb291db2dd4` (2026-04-07,
+  `Add MIT License to the project`)
+- **License:** `MIT · © 2026 Jingzhe0915`. Upstream `LICENSE` copied verbatim
+  to `games/tank-battle/LICENSE`.
+- **Local files:** `games/tank-battle/` — the upstream `index.html` and
+  `LICENSE`, copied verbatim. No build step: all HTML, CSS and game JavaScript
+  are inlined in the single page and the arena renders to a `<canvas>`.
+- **Local patches:** the external-URL audit found no CDNs, fonts, analytics or
+  other external references, so no stripping was needed. Added a head theme
+  bootstrap script that sets `data-site-theme` from `localStorage.site-theme`
+  before paint, and injected the back bar linking to `/games/`. Game logic
+  unchanged; full detail is in `games/tank-battle/VENDORED.md`.
+
+## 8. Craterfall
+
+- **Upstream:** https://github.com/blueRonyHazard/craterfall-the-game
+- **Pinned commit:** `0685b15ffa8fd305ad14d0b004add3dc65ae9a3b`
+- **License:** `MIT · © 2026 Craterfall contributors`. Upstream `LICENSE`
+  copied verbatim to `games/craterfall/LICENSE`.
+- **Local files:** `games/craterfall/` — the vendored `dist/` output of the
+  one-time Vite/Phaser build (`npm ci && npm run build`), with the `base` path
+  set so every hashed chunk and asset resolves under `/games/craterfall/`.
+- **Local patches:** no runtime CDN, font or analytics requests; injected the
+  themed back bar linking to `/games/` and a head script that sets
+  `data-site-theme` from `localStorage.site-theme` before paint without
+  touching the game's own theming. Game logic unchanged. Full build, audit and
+  patch detail is in `games/craterfall/VENDORED.md`.
+
+## 9. Roomwright
+
+- **Upstream:** https://github.com/pyros-projects/roomwright
+- **Pinned commit:** `a1a943f9762df17a94a8c80d5f8d7faae37e7370`
+- **License:** `MIT · © 2026 pyros-projects`. Upstream `LICENSE` copied
+  verbatim to `games/roomwright/LICENSE`.
+- **Local files:** `games/roomwright/` — the upstream `index.html` and
+  `LICENSE`, copied verbatim. No build step: the game is a single self-contained
+  page with its CSS and JavaScript inlined.
+- **Local patches:** no runtime CDN, font or analytics requests; injected the
+  themed back bar linking to `/games/` and a head script that sets
+  `data-site-theme` from `localStorage.site-theme` before paint. Game logic
+  unchanged. Full detail is in `games/roomwright/VENDORED.md`.
+
 ## Shared local patch — back bar
 
-Every one of the 17 game pages (plus the wavde hub) carries a slim site-styled
+Every one of the 21 game pages (plus the wavde hub) carries a slim site-styled
 bar at the top: `← Mspy1 · Games` linking to `/games/` with the page title on
 the right. It is inlined from `games/backbar-snippet.html`. This is a navigational
 containment bar only; no game UI or logic is altered by it.
