@@ -1,0 +1,11 @@
+No upstream LICENSE file exists; copied with the author's explicit permission. Not MIT-licensed.
+
+The application in this directory is a copy of https://github.com/anilcanpolat/pickup-football-teams
+(author: Anilcan Polat). That repository does not contain a LICENSE file, so no
+license terms were granted through it. This copy was made with the author's
+explicit, personal permission for replication on this site.
+
+No license is asserted here beyond that permission. In particular, this code is
+NOT MIT-licensed, and no MIT license or copyright attribution applies to it.
+See VENDORED.md for the pinned commit, the local changes, and the provenance of
+this copy.

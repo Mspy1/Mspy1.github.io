@@ -13,12 +13,15 @@
 
 The upstream repository is a single, self-contained `index.html` (no build
 step, no dependencies, no separate asset files). The two upstream files
-`index.html` and `LICENSE` are copied verbatim from the pinned commit; no
-build is needed (`no build`). Nothing else is required at runtime — all
-markup, CSS and game JavaScript are inlined in `index.html` and the arena is
-rendered to a `<canvas>`.
+`index.html` and `LICENSE` were copied verbatim from the pinned commit and
+then locally patched as listed below; no build is needed (`no build`).
+Nothing else is required at runtime — all markup, CSS and game JavaScript
+are inlined in `index.html` and the arena is rendered to a `<canvas>`.
 
-Verbatim source SHA-256 hashes at the pinned commit:
+The values below are **SHA-256 of the vendored (CRLF) file; upstream LF blob
+hashes differ** (the working-tree copies use CRLF line endings, whereas the
+upstream git blobs are stored with LF). They identify the files as first
+vendored, before the local patches below; the patched files hash differently:
 
 - `index.html` → `933A88EEEA9730E78D9C0F73B39C47118A3D8094BEEFFDE596BAF9AE055710EF`
 - `LICENSE` → `22C573042B1C87C7FB3DE3D3C6C2B3B329EFCFFF917B0502033A9612962E1700`
@@ -60,9 +63,10 @@ inline data-URI favicon below. It is an identifier, not a fetched resource.
    `/favicon.ico` request returned 404 and logged a console error. This is
    browser chrome only — no network request, no game UI change.
 
-5. **Mobile horizontal-overflow guard** - the upstream pins the canvas to its
-   native 800x400 resolution (about 805px wide) and centres it with a negative
-   left offset. `body` already had `overflow-x:hidden`, but at a 390px viewport
+5. **Mobile horizontal-overflow guard (superseded by patch 6)** - the upstream
+   pins the canvas to its native 800x400 resolution (about 805px wide) and
+   centres it with a negative left offset. `body` already had
+   `overflow-x:hidden`, but at a 390px viewport
    `document.documentElement.scrollWidth` was 598px, so the document still
    scrolled sideways. A chrome-only rule was added to the head `<style>` block:
 
@@ -70,10 +74,36 @@ inline data-URI favicon below. It is an identifier, not a fetched resource.
    html { overflow-x: hidden; }
    ```
 
-   This clips the fixed-size canvas at narrow widths without touching game
+   This clipped the fixed-size canvas at narrow widths without touching game
    logic, canvas dimensions, controls, or the back bar. Re-verified at 390x844:
    `document.documentElement.scrollWidth <= innerWidth`, no console errors,
-   canvas still rendered, back bar still 48px and themed.
+   canvas still rendered, back bar still 48px and themed. **This rule was
+   removed by patch 6** once the canvas was actually scaled to fit; it is kept
+   in this record only as history, so no clip is needed any more.
+
+6. **Responsive canvas / real mobile layout fix** - the upstream 800x400 backing
+   store was hard-pinned and centred with a negative offset, so at 390x844 the
+   canvas rendered 805px wide at `left:-207` (only ~250px visible) and at
+   320x700 it rendered entirely below the fold. Patch 5 only hid the overflow.
+   CSS-only changes in the head `<style>` block of `index.html`:
+
+   - Removed the `html { overflow-x: hidden; }` rule from patch 5 entirely.
+   - `#canvas-wrap { min-height: 0; }` so the flex row can shrink and give the
+     canvas a definite height to resolve `max-height` against.
+   - Added `#gc { max-width: min(100vw, 100%); max-height: 100%; width: auto;
+     height: auto; }` (the `100%` half of the `min()` ties the cap to the
+     viewport-spanning wrap). The canvas keeps its native 800x400 backing
+     store, so every game coordinate, wall, hitbox and control is unchanged;
+     only the rendered CSS box scales.
+   - Replaced the patch-5-era narrow media query with
+     `@media (max-width: 700px), (max-height: 520px)`, which lets the two fixed
+     HUD columns shrink (`.hud-player { width:auto; flex:1 1 0; min-width:0 }`,
+     `.hp-track { width:100%; max-width:190px }`, smaller HUD type) and caps the
+     stacked settings panel at `max-height:32vh; overflow-y:auto` so the arena
+     always has room on phones and in landscape. Settings remain reachable by
+     scrolling inside the panel.
+
+   No game logic, canvas dimensions, key bindings or back-bar code changed.
 
 No other files were changed. No build step runs on Pages; this is a static
 snapshot and will not auto-update.

@@ -6,7 +6,8 @@
   - Subject: `Adding New Weapons (Dirt Remover + Dirt Collector + Magma Pool) + Fix Tests`
 - **License:** MIT — `Copyright (c) 2026 Craterfall contributors`. Upstream `LICENSE` is
   copied verbatim and retained in this directory (SHA-256
-  `6CEEED8A660705E050BA9F2751DD2DB7395255E7D4DF5BD09755B2D0F3348F20`).
+  `6CEEED8A660705E050BA9F2751DD2DB7395255E7D4DF5BD09755B2D0F3348F20` — this
+  is the SHA-256 of the vendored (CRLF) file; upstream LF blob hashes differ).
 - **Local path:** `/games/craterfall/`
 
 ## What is vendored
@@ -27,16 +28,19 @@ BASE_PATH=/games/craterfall/ npm run build
 at this commit, so `npm install` was used. The build script is
 `tsc --noEmit && vite build`; Vite resolved `vite@6.4.6`, `phaser@3.90.x`.)
 
-Build output: `dist/` (11 vendored files, ~11.53 MB total — dominated by the two
-optional source maps). Vendored files:
+Build output: `dist/`. After the local cleanup recorded below, 7 files are
+vendored (~1.58 MB total):
 
 - `index.html`, `favicon.svg`, `LICENSE`, `VENDORED.md`
 - `assets/index-BXf4CT2m.js`, `assets/index-CjY3zExj.css`
 - `assets/phaser-ZmHddmjc.js` (Phaser kept in its own long-cacheable chunk)
-- `assets/index-BXf4CT2m.js.map`, `assets/phaser-ZmHddmjc.js.map` (optional
-  DevTools source maps; not requested at runtime unless DevTools is open)
-- `assets/README.md`, `.DS_Store` (inert passthrough files copied from upstream
-  `public/`; harmless)
+
+The upstream build also shipped two optional DevTools source maps
+(`assets/index-BXf4CT2m.js.map`, `assets/phaser-ZmHddmjc.js.map`, ~10.3 MB
+combined) and two inert passthrough files (`assets/README.md`, `.DS_Store`).
+All four were **removed locally** — see "Local modifications" below. This does
+not affect runtime behaviour: the maps are only requested by DevTools, and the
+two passthrough files are never referenced.
 
 All runtime assets are local. The game paints every texture procedurally and
 synthesises every sound with the Web Audio API, so it fetches no images, fonts,
@@ -92,6 +96,28 @@ Only `index.html` was modified after the build:
    to `Craterfall`. It keeps the `/games/` link, the 48px height and the
    `z-index: 2147483000` stacking value. No game logic, markup below the bar,
    CSS, or JS chunk was changed.
+3. **Back-bar keyboard access** — a tiny inline `<script>` immediately after the
+   back bar attaches `keydown`, `keyup` and `keypress` listeners to the
+   `.msm-backbar a` link that call `stopPropagation()` only (never
+   `preventDefault()`). Phaser's keyboard manager listens on `window` in the
+   bubble phase and `preventDefault()`s captured keys; because the link is the
+   event target, stopping the event there keeps key events away from Phaser
+   while the browser's native Tab focus and Enter navigation to `/games/` still
+   work — both in the menu and during gameplay. No Phaser code or game logic
+   was changed.
 
-No other files were changed. No build step runs on Pages; this is a static
-snapshot and will not auto-update.
+4. **CSS centring fix** — `assets/index-CjY3zExj.css`: `#game-root` was
+   `display:flex;align-items:center;justify-content:center`, which double-centred
+   the canvas (Phaser already centres its own canvas), pushing the canvas down
+   on portrait viewports. Changed to `display:block` so only Phaser centres the
+   canvas. No JS or logic changed.
+5. **Source-map / inert-file cleanup** — to remove ~10.3 MB of repo bloat:
+   - Deleted `assets/index-BXf4CT2m.js.map` (343,729 bytes) and
+     `assets/phaser-ZmHddmjc.js.map` (10,169,964 bytes).
+   - Stripped the trailing `//# sourceMappingURL=...` line from the end of
+     `assets/index-BXf4CT2m.js` and `assets/phaser-ZmHddmjc.js` (the only
+     references to the maps; no executable code altered).
+   - Deleted the inert passthrough files `assets/README.md` and `.DS_Store`,
+     copied from upstream `public/` and never referenced at runtime.
+
+No build step runs on Pages; this is a static snapshot and will not auto-update.

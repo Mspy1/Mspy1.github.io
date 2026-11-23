@@ -26,10 +26,11 @@ shipped — they are not needed to play the game.
 
 ## Patches applied to `index.html`
 
-Only the shared site chrome was added and one tiny compatibility guard was
-inserted (patch 3 below); the visible game UI and all gameplay are unchanged.
-Aside from these three edits the file is byte-for-byte identical to the pinned
-upstream `index.html` (verified by reversing the edits and comparing SHA-256).
+Only the shared site chrome, two keyboard/layout access patches and one tiny
+compatibility guard were inserted (patches 1-5 below); the visible game UI and
+all gameplay are unchanged. Aside from these five edits the file is byte-for-
+byte identical to the pinned upstream `index.html` (verified by reversing the
+edits and comparing SHA-256).
 
 1. **Head script (before paint).** Inserted immediately after `<head>` a tiny
    inline script that reads `localStorage.site-theme` (defaulting to the system
@@ -40,8 +41,8 @@ upstream `index.html` (verified by reversing the edits and comparing SHA-256).
 2. **Themed back bar.** The shared `games/backbar-snippet.html` was inlined
    verbatim immediately after `<body>` with the title `Roomwright`. It keeps
    `href="/games/"`, a 48px sticky bar, and `z-index:2147483000`, and themes from
-   `data-site-theme` (dark when `site-theme=dark`). No per-page CSS overrides
-   were added.
+   `data-site-theme` (dark when `site-theme=dark`). The only per-page CSS
+   override is the canvas containment in patch 5.
 
 3. **Skip the intro film request (compatibility guard).** Upstream calls
    `Intro.load()` unconditionally at boot; that creates a `<video>` element and
@@ -53,6 +54,21 @@ upstream `index.html` (verified by reversing the edits and comparing SHA-256).
    missing — no visual/gameplay change, just no failed request. The upstream
    `?intro=0` hook alone is not enough because it only skips `begin()`, not
    `load()`.
+
+4. **Back-bar keyboard access.** A tiny inline `<script>` immediately after the
+   back bar attaches `keydown`, `keyup` and `keypress` listeners to the
+   `.msm-backbar a` link that call `stopPropagation()` only (never
+   `preventDefault()`). The link is the event target, so mapped key events are
+   stopped before they bubble to the game's global `window` listener, while the
+   browser's native Tab focus and Enter navigation still work. This fixes
+   keyboard use of the `/games/` link in the menu and during play without
+   changing any game logic or built code.
+5. **Canvas containment below the back bar.** A CSS-only override in the head
+   style block sets `canvas{top:calc(50% + 24px);max-height:calc(100vh - 48px)}`.
+   This re-centres the fixed canvas in the 48px bar's remaining space and caps
+   its height to that space, so the sticky back bar no longer overlaps it on
+   short/landscape viewports (e.g. 667x375). No game logic or JS sizing changed;
+   the canvas still uses the game's own `resize()` dimensions.
 
 ## External requests / CDN stripping
 

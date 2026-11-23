@@ -1,9 +1,14 @@
 # Game credits and licenses
 
-The 21 games hosted at `/games/` are vendored snapshots of open-source projects.
-Each keeps its upstream MIT license and copyright notice verbatim (see the
-`LICENSE` files alongside the games). No game logic was modified. Screenshots of
-the games under `games/thumbs/` are covered by the same MIT attribution.
+The Games hub lists 21 games: 20 vendored snapshots hosted at `/games/` plus
+Pickup Football Teams, which is hosted at `/football/`. The 20 games under
+`/games/` keep their upstream MIT license and copyright notice verbatim (see the
+`LICENSE` files alongside them), and their screenshots under `games/thumbs/` are
+covered by the same MIT attribution. Their vendoring patches are limited to site
+chrome (back bar, theme bootstrap) and asset/CDN removal; game logic is otherwise
+unchanged. Pickup Football Teams is the exception: it has no upstream license and
+is a permission-based copy, and its backend was replaced with `localStorage` (see
+section 10 below).
 
 | # | Game | Upstream project | License | Copyright |
 |---|------|------------------|---------|-----------|
@@ -16,6 +21,7 @@ the games under `games/thumbs/` are covered by the same MIT attribution.
 | 7 | Tank Battle | [Jingzhe0915/tank-battle](https://github.com/Jingzhe0915/tank-battle) | MIT | © 2026 Jingzhe0915 |
 | 8 | Craterfall | [blueRonyHazard/craterfall-the-game](https://github.com/blueRonyHazard/craterfall-the-game) | MIT | © 2026 Craterfall contributors |
 | 9 | Roomwright | [pyros-projects/roomwright](https://github.com/pyros-projects/roomwright) | MIT | © 2026 pyros-projects |
+| 10 | Pickup Football Teams (`/football/`) | [anilcanpolat/pickup-football-teams](https://github.com/anilcanpolat/pickup-football-teams) | None — permission-based copy | Anilcan Polat (no upstream LICENSE) |
 
 ## 1. Solitaire
 
@@ -149,6 +155,23 @@ the games under `games/thumbs/` are covered by the same MIT attribution.
   themed back bar linking to `/games/` and a head script that sets
   `data-site-theme` from `localStorage.site-theme` before paint. Game logic
   unchanged. Full detail is in `games/roomwright/VENDORED.md`.
+
+## 10. Pickup Football Teams (`/football/`)
+
+- **Upstream:** https://github.com/anilcanpolat/pickup-football-teams
+- **Pinned commit:** `3bc6548a88319a1f8b32eb97d969609b208799ca`
+- **Vendored:** 2026-11-22; back bar added 2026-11-23
+- **License: none.** The upstream repository has no LICENSE file. This is **not
+  MIT-licensed** and no MIT attribution applies to it. The copy was made with the
+  author's explicit permission; see `football/LICENSE` and `football/VENDORED.md`.
+- **Local files:** `football/index.html`, `football/football.ico`
+- **Local patches:** the upstream Python sync backend was replaced with
+  `localStorage`; the on-pitch scoreboard and kit UI from the live site were
+  ported in; third-party host beacons were removed; and the site-styled back bar
+  linking to `/games/` plus a head theme-bootstrap script were added. Game
+  behaviour was modified — this is not a verbatim, logic-untouched snapshot.
+- **Linking:** listed as a curated card on the Games hub but served from
+  `/football/`; its card credit reads "Shared by author · anilcanpolat".
 
 ## Shared local patch — back bar
 

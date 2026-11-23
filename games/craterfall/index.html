@@ -39,6 +39,20 @@ html[data-theme="dark"] .msm-backbar,html[data-site-theme="dark"] .msm-backbar{-
 @media (max-width:380px){.msm-backbar{padding:0 14px}.msm-backbar .msm-inner{gap:8px}}
 </style>
 <div class="msm-backbar"><div class="msm-inner"><a href="/games/">← Mspy1 · Games</a><span class="msm-title">Craterfall</span></div></div>
+<script>
+/* Back-bar keyboard access (site-chrome patch): the vendored game installs
+   global keydown/keyup/keypress handlers that preventDefault() mapped keys
+   (Enter, Tab, Space, ...). The link is the event target, so stopping the event
+   here keeps it away from those handlers without cancelling the browser's
+   native Tab focus / Enter navigation. No game logic or bundled JS is touched. */
+(function () {
+  var link = document.querySelector('.msm-backbar a');
+  if (!link) return;
+  ['keydown', 'keyup', 'keypress'].forEach(function (type) {
+    link.addEventListener(type, function (e) { e.stopPropagation(); });
+  });
+})();
+</script>
 
     <div id="game-root"></div>
     <noscript>Craterfall needs JavaScript to run.</noscript>

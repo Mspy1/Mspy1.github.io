@@ -14,12 +14,6 @@
             padding: 0;
         }
 
-        /* Site chrome guard: clip the fixed-size game canvas at narrow viewports
-           so the page has no horizontal scroll at 390px. Game layout unchanged. */
-        html {
-            overflow-x: hidden;
-        }
-
         body {
             background: #111;
             color: #fff;
@@ -263,6 +257,7 @@
 
         #canvas-wrap {
             flex: 1;
+            min-height: 0; /* let the flex row shrink so #gc's max-height:100% resolves */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -275,6 +270,18 @@
             border: 3px solid #222;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
             cursor: crosshair;
+        }
+
+        /* Responsive arena. The 800x400 backing store (and every game
+           coordinate/hitbox) is untouched; only the rendered CSS box scales down
+           to fit the viewport width and the available flex-row height. */
+        #gc {
+            /* 100% is the viewport-spanning wrap width; min() keeps the cap
+               tied to the wrap even if 100vw and the wrap ever disagree. */
+            max-width: min(100vw, 100%);
+            max-height: 100%;
+            width: auto;
+            height: auto;
         }
 
         .ovl {
@@ -358,6 +365,52 @@
 
         #toast.pwr {
             background: rgba(100, 60, 180, 0.95);
+        }
+
+        /* Narrow / short-screen chrome. The two fixed-width HUD columns plus the
+           centre block overflowed horizontally below ~390px, and the stacked
+           settings panel left no room for the arena on phones/landscape. Let the
+           HUD shrink and make settings internally scrollable so the canvas can
+           always fit. Cosmetic only; no game logic or control sizes changed. */
+        @media (max-width: 700px), (max-height: 520px) {
+            #hud {
+                padding: 6px 10px;
+            }
+
+            #settings {
+                max-height: 32vh;
+                overflow-y: auto;
+            }
+
+            .hud-player {
+                width: auto;
+                flex: 1 1 0;
+                min-width: 0;
+            }
+
+            .hp-track {
+                width: 100%;
+                max-width: 190px;
+            }
+
+            .hud-name {
+                font-size: 11px;
+                letter-spacing: 1px;
+            }
+
+            #hud-center {
+                min-width: 0;
+            }
+
+            #status {
+                font-size: 13px;
+                letter-spacing: 1px;
+            }
+
+            .pause-btn {
+                padding: 3px 6px;
+                font-size: 9px;
+            }
         }
     </style>
 </head>
