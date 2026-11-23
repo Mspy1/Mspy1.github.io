@@ -25,7 +25,7 @@
 | 11 | `/games/wavde/zip/` | Zip |
 | 12 | `/games/wavde/patches/` | Patches |
 
-## Local modifications (only these three)
+## Local modifications (only these five)
 
 1. **Google Fonts removed** from all 13 HTML pages (hub + 12 games). Exactly
    three `<link>` tags were deleted per page:
@@ -40,6 +40,18 @@
    HTML pages, inlined verbatim from `games/backbar-snippet.html` (the shared
    snippet used by the other vendored games). It links to `/games/` and shows
    the page title on the right.
+4. **Canonical / og:url repointed to this site (2026-11-23).** In the hub
+   `index.html`, `<meta property="og:url">` originally pointed at the upstream
+   `https://wavde.github.io/games/`. It was changed to
+   `https://mspy1.github.io/games/wavde/` so social/SEO metadata refers to this
+   site's canonical location. The hub has no `<link rel="canonical">`. The
+   `github.com/wavde/games` / `wavde.github.io` footer credit links were left
+   as-is because they are outside this patch's scope. No game logic, game links
+   or back bar were touched.
+5. **Vendored `twitter:*` metadata removed (2026-11-23).** The upstream
+   `<meta name="twitter:card" content="summary">` tag was deleted from the hub
+   `index.html` per site policy (no Twitter metadata anywhere). No other head
+   metadata, game links, game logic or back bar were changed.
 
 No other files were changed. No build step, no external requests, no runtime
 dependencies. All other upstream files (JS, CSS, `favicon.svg`, `manifest.json`,
