@@ -118,6 +118,10 @@ a{color:inherit;text-decoration:none}
 /* ── SECTIONS ── */
 section{position:relative;padding:110px 0}
 section .wrap{position:relative;z-index:1}
+/* scroll recede: transform + opacity only on inner wrappers — never layout */
+@media (prefers-reduced-motion:no-preference) and (min-width:821px){
+  section:not(.hero) .wrap{transform:translate3d(0,var(--sy,0px),0) scale(var(--ss,1));transform-origin:center top;opacity:var(--so,1)}
+}
 section.alt{background:var(--bg-alt)}
 /* soft section glow — absolutely positioned, never adds height */
 section.alt::before,section#work::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.55;
@@ -193,6 +197,7 @@ footer .sp{margin-left:auto}
   .tile::after,.card::after,.repo::after,.clink::after,.btn.primary,.btn.link{transition:none!important}
   .btn.primary:hover,.btn.link:hover,.repo:hover,.clink:hover{transform:none!important}
   .hero .wrap{transform:none!important;opacity:1!important}
+  section:not(.hero) .wrap{transform:none!important;opacity:1!important}
   .floaty{animation:none!important;display:none!important}
 }
 
@@ -635,9 +640,24 @@ function heroDrift(){
   heroEl.style.setProperty("--hy",(-18*p).toFixed(1)+"px");
   heroEl.style.setProperty("--ho",(1-.22*p).toFixed(3));
 }
-function frame(){ requestAnimationFrame(()=>{ phoneMotion(); heroDrift(); }); }
+/* section recede: batch-read rects, then write only custom properties */
+const recedeWraps=$$("#about .wrap,#work .wrap,#lab .wrap,#code .wrap,#contact .wrap");
+const recedeMQ=matchMedia("(prefers-reduced-motion: no-preference) and (min-width: 821px)");
+function recede(){
+  if(reduce || !recedeMQ.matches || !recedeWraps.length) return;
+  const h=innerHeight||1;
+  const tops=recedeWraps.map(el=>el.getBoundingClientRect().top);
+  for(let i=0;i<tops.length;i++){
+    const p=Math.min(1,Math.max(0,-tops[i]/h));
+    const el=recedeWraps[i];
+    el.style.setProperty("--sy",(-14*p).toFixed(2)+"px");
+    el.style.setProperty("--ss",(1-.015*p).toFixed(4));
+    el.style.setProperty("--so",(1-.7*p).toFixed(3));
+  }
+}
+function frame(){ requestAnimationFrame(()=>{ phoneMotion(); heroDrift(); recede(); }); }
 addEventListener("scroll",()=>{ onScroll(); if(!ticking){ ticking=true; frame();} },{passive:true});
-addEventListener("resize",()=>{ phoneMotion(); heroDrift(); });
+addEventListener("resize",()=>{ phoneMotion(); heroDrift(); recede(); });
 
 /* ───────── gen z extras (only while switched on) ───────── */
 const floaties=$("#floaties"), toastEl=$("#toast");
@@ -701,7 +721,7 @@ rq.addEventListener("submit",e=>{
 
 apply(true);
 observe();
-onScroll(); phoneMotion(); heroDrift();
+onScroll(); phoneMotion(); heroDrift(); recede();
 </script>
 </body>
 </html>
