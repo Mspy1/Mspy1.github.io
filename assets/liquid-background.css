@@ -1,0 +1,87 @@
+/* Liquid background — decorative only. Sits behind page content on the
+   homepage and the Games hub. No scripts, no external assets, no new deps. */
+
+:root{
+  --liq-blue:      rgba(41,110,214,.26);
+  --liq-blue-2:    rgba(92,162,246,.22);
+  --liq-green:     rgba(30,138,92,.20);
+  --liq-teal:      rgba(30,160,170,.16);
+  --liq-glow-blue: rgba(126,186,255,.26);
+  --liq-glow-green:rgba(120,214,178,.20);
+  --liq-sheen:     rgba(255,255,255,.30);
+}
+[data-theme="dark"]{
+  --liq-blue:      rgba(46,110,224,.20);
+  --liq-blue-2:    rgba(70,145,240,.16);
+  --liq-green:     rgba(40,178,128,.15);
+  --liq-teal:      rgba(36,180,170,.12);
+  --liq-glow-blue: rgba(104,174,255,.17);
+  --liq-glow-green:rgba(66,211,146,.13);
+  --liq-sheen:     rgba(150,190,255,.05);
+}
+
+.liquid-bg{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+  contain:layout paint style;
+  user-select:none;
+  -webkit-user-select:none;
+}
+/* Everything readable stays above the ornament; nav/toast/skip-link already
+   carry higher z-index values in the page styles. */
+main,footer{position:relative;z-index:1}
+
+.liq-field,.liq-sparks{position:absolute;inset:-16%;pointer-events:none}
+
+.liq-pool,.liq-spark{
+  position:absolute;
+  display:block;
+  transform:translate3d(0,0,0);
+}
+/* Blur on each shape (not on the whole field) so the browser can cache the
+   filtered texture and only composite the slow transform. */
+.liq-pool{
+  filter:blur(58px);
+  -webkit-filter:blur(58px);
+  border-radius:58% 42% 63% 37% / 47% 56% 44% 53%;
+  background:radial-gradient(closest-side at 42% 40%,var(--liq-blue),transparent 78%);
+}
+.liq-pool--a{width:64vw;height:58vw;left:-14vw;top:-20vw;animation:liqDriftA 38s ease-in-out infinite alternate}
+.liq-pool--b{width:58vw;height:62vw;right:-12vw;top:4vh;border-radius:44% 56% 38% 62% / 58% 42% 60% 40%;background:radial-gradient(closest-side at 55% 48%,var(--liq-green),transparent 76%);animation:liqDriftB 47s ease-in-out infinite alternate}
+.liq-pool--c{width:70vw;height:52vw;left:8vw;bottom:-26vw;border-radius:62% 38% 45% 55% / 40% 62% 38% 60%;background:radial-gradient(closest-side at 50% 52%,var(--liq-blue-2),transparent 78%);animation:liqDriftC 53s ease-in-out infinite alternate}
+.liq-pool--d{width:48vw;height:54vw;right:4vw;bottom:-18vw;border-radius:40% 60% 55% 45% / 52% 40% 60% 48%;background:radial-gradient(closest-side at 46% 46%,var(--liq-teal),transparent 78%);animation:liqDriftD 61s ease-in-out infinite alternate}
+
+.liq-spark{
+  filter:blur(30px);
+  -webkit-filter:blur(30px);
+  border-radius:50%;
+  opacity:.85;
+}
+.liq-spark--a{width:30vw;height:22vw;left:18vw;top:12vh;background:radial-gradient(closest-side,var(--liq-glow-blue),transparent 72%);animation:liqDriftE 29s ease-in-out infinite alternate}
+.liq-spark--b{width:26vw;height:24vw;right:14vw;bottom:14vh;background:radial-gradient(closest-side,var(--liq-glow-green),transparent 72%);animation:liqDriftF 41s ease-in-out infinite alternate}
+
+/* A faint continuous film over the pools — no animation, so painted once. */
+.liquid-bg::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(118deg,transparent 18%,var(--liq-sheen) 46%,transparent 74%);
+  opacity:.35;
+  filter:blur(50px);
+  -webkit-filter:blur(50px);
+}
+
+@keyframes liqDriftA{from{transform:translate3d(0,0,0) scale(1) rotate(0deg)}to{transform:translate3d(5%,4%,0) scale(1.08) rotate(6deg)}}
+@keyframes liqDriftB{from{transform:translate3d(0,0,0) scale(1) rotate(0deg)}to{transform:translate3d(-4%,-5%,0) scale(1.06) rotate(-7deg)}}
+@keyframes liqDriftC{from{transform:translate3d(0,0,0) scale(1) rotate(0deg)}to{transform:translate3d(4%,-3%,0) scale(1.05) rotate(5deg)}}
+@keyframes liqDriftD{from{transform:translate3d(0,0,0) scale(1) rotate(0deg)}to{transform:translate3d(-5%,3%,0) scale(1.09) rotate(-5deg)}}
+@keyframes liqDriftE{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(6%,5%,0) scale(1.12)}}
+@keyframes liqDriftF{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-5%,-4%,0) scale(1.1)}}
+
+@media (prefers-reduced-motion:reduce){
+  .liq-pool,.liq-spark{animation:none!important;transform:none!important}
+}
