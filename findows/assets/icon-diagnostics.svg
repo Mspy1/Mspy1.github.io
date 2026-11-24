@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="diagTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6f7dff"/><stop offset="1" stop-color="#19b8ad"/></linearGradient>
+    <linearGradient id="diagGloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".32"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#diagTile)"/>
+  <rect x="2.8" y="2.8" width="58.4" height="30" rx="15" fill="url(#diagGloss)"/>
+  <rect x="2.8" y="2.8" width="58.4" height="58.4" rx="15.2" fill="none" stroke="#fff" stroke-opacity=".38"/>
+  <rect x="11" y="13" width="42" height="27" rx="5" fill="#16264a" fill-opacity=".55"/>
+  <rect x="14.5" y="17" width="16" height="7" rx="2" fill="#fff" fill-opacity=".72"/>
+  <rect x="33.5" y="17" width="16" height="7" rx="2" fill="#fff" fill-opacity=".42"/>
+  <path d="M14.5 31.5h7l3-5 4 9 3.5-7 2.5 3h15" fill="none" stroke="#8ff3df" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="20" cy="48" r="4" fill="#fff" fill-opacity=".95"/>
+  <circle cx="32" cy="48" r="4" fill="#fff" fill-opacity=".62"/>
+  <circle cx="44" cy="48" r="4" fill="#fff" fill-opacity=".34"/>
+</svg>

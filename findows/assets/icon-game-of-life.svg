@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="golTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f6df5"/><stop offset="1" stop-color="#16b8a6"/></linearGradient>
+    <linearGradient id="golGloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="golCell" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eaf2ff"/><stop offset="1" stop-color="#8fb2ff"/></linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#golTile)"/>
+  <rect x="2.8" y="2.8" width="58.4" height="29" rx="15" fill="url(#golGloss)"/>
+  <rect x="2.8" y="2.8" width="58.4" height="58.4" rx="15.2" fill="none" stroke="#fff" stroke-opacity=".4"/>
+  <g fill="#fff" fill-opacity=".22">
+    <rect x="15" y="16" width="7" height="7" rx="1.6"/><rect x="24" y="16" width="7" height="7" rx="1.6"/>
+    <rect x="33" y="16" width="7" height="7" rx="1.6"/><rect x="42" y="16" width="7" height="7" rx="1.6"/>
+    <rect x="15" y="25" width="7" height="7" rx="1.6"/><rect x="24" y="25" width="7" height="7" rx="1.6"/>
+    <rect x="33" y="25" width="7" height="7" rx="1.6"/><rect x="42" y="25" width="7" height="7" rx="1.6"/>
+    <rect x="15" y="34" width="7" height="7" rx="1.6"/><rect x="24" y="34" width="7" height="7" rx="1.6"/>
+    <rect x="33" y="34" width="7" height="7" rx="1.6"/><rect x="42" y="34" width="7" height="7" rx="1.6"/>
+    <rect x="15" y="43" width="7" height="7" rx="1.6"/><rect x="24" y="43" width="7" height="7" rx="1.6"/>
+    <rect x="33" y="43" width="7" height="7" rx="1.6"/><rect x="42" y="43" width="7" height="7" rx="1.6"/>
+  </g>
+  <g fill="url(#golCell)" stroke="#fff" stroke-opacity=".7" stroke-width=".8">
+    <rect x="24" y="25" width="7" height="7" rx="1.6"/>
+    <rect x="33" y="34" width="7" height="7" rx="1.6"/>
+    <rect x="15" y="43" width="7" height="7" rx="1.6"/>
+    <rect x="24" y="43" width="7" height="7" rx="1.6"/>
+    <rect x="33" y="43" width="7" height="7" rx="1.6"/>
+  </g>
+  <path d="M12 50c4-6 9-9 16-10" fill="none" stroke="#fff" stroke-opacity=".65" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="2 4"/>
+</svg>

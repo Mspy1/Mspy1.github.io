@@ -1,0 +1,206 @@
+/* Shell layout: wallpaper, shortcuts, windows, Start, taskbar. */
+#fw-desktop{
+  position:fixed;inset:0;overflow:hidden;overflow:clip;font-family:var(--fw-font);color:var(--fw-text);
+  background:#0e1630;isolation:isolate;--fw-keyboard-inset:0px;
+}
+#fw-desktop *{box-sizing:border-box}
+#fw-desktop button,#fw-desktop input{font:inherit}
+
+.fw-wallpaper{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(circle at 18% 12%,rgba(79,109,245,.42),transparent 46%),
+    radial-gradient(circle at 82% 18%,rgba(22,184,166,.30),transparent 42%),
+    radial-gradient(circle at 60% 92%,rgba(96,72,214,.34),transparent 48%),
+    url("../assets/wallpaper-dusk.svg");
+  background-size:cover,cover,cover,cover;background-position:center;
+  transition:background-image .4s ease;
+}
+#fw-desktop[data-wallpaper="tide"] .fw-wallpaper{background-image:
+  radial-gradient(circle at 24% 10%,rgba(22,184,166,.36),transparent 44%),
+  radial-gradient(circle at 78% 26%,rgba(79,109,245,.40),transparent 46%),
+  radial-gradient(circle at 50% 96%,rgba(0,132,180,.32),transparent 46%),
+  url("../assets/wallpaper-tide.svg")}
+#fw-desktop[data-wallpaper="aurora"] .fw-wallpaper{background-image:
+  radial-gradient(circle at 14% 18%,rgba(132,92,240,.40),transparent 46%),
+  radial-gradient(circle at 88% 14%,rgba(22,184,166,.32),transparent 44%),
+  radial-gradient(circle at 52% 90%,rgba(236,102,168,.24),transparent 46%),
+  url("../assets/wallpaper-aurora.svg")}
+#fw-desktop[data-theme="light"] .fw-wallpaper{filter:saturate(1.06) brightness(1.12)}
+
+.fw-topbar{position:absolute;z-index:20;top:0;left:0;right:0;height:54px;
+  display:flex;align-items:center;gap:16px;padding:0 22px;
+  background:linear-gradient(180deg,rgba(8,13,30,.44),rgba(8,13,30,0));
+}
+#fw-desktop[data-theme="light"] .fw-topbar{background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,255,255,0))}
+.fw-brand{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;letter-spacing:.01em;
+  text-shadow:0 1px 12px rgba(0,0,0,.25)}
+.fw-brand img{width:26px;height:26px}
+.fw-brand small{font-weight:500;opacity:.72;font-size:12px}
+.fw-exit{margin-left:auto;display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 14px;
+  border-radius:999px;border:1px solid var(--fw-line);background:var(--fw-glass);backdrop-filter:var(--fw-blur);
+  color:var(--fw-text);text-decoration:none;font-size:13px;font-weight:600;transition:transform .18s,border-color .18s}
+.fw-exit:hover{transform:translateY(-1px);border-color:var(--fw-line-strong)}
+.fw-exit::before{content:"←";font-size:15px}
+
+.fw-desktop-area{position:absolute;inset:54px 0 66px;z-index:5}
+/* 30+ shortcuts must scroll inside the desktop area, never scroll the shell
+   itself (a scrolled shell drags every open window off-screen). */
+.fw-shortcuts{position:absolute;top:18px;left:22px;display:grid;grid-template-columns:repeat(2,92px);
+  gap:14px;align-content:start;max-height:calc(100% - 36px);overflow-x:hidden;overflow-y:auto;
+  padding-right:4px;scrollbar-width:thin}
+.fw-shortcut{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 6px 8px;
+  min-height:88px;border:1px solid transparent;border-radius:16px;background:transparent;color:var(--fw-text);
+  cursor:pointer;transition:transform .16s,background .16s,border-color .16s}
+.fw-shortcut:hover{transform:translateY(-3px);background:var(--fw-glass);border-color:var(--fw-line);backdrop-filter:var(--fw-blur)}
+.fw-shortcut:active{transform:translateY(0)}
+.fw-shortcut .fw-icon{width:46px;height:46px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.28))}
+#fw-desktop[data-theme="light"] .fw-shortcut .fw-icon{filter:drop-shadow(0 6px 12px rgba(40,60,110,.20))}
+.fw-shortcut-name{font-size:12px;font-weight:600;text-align:center;line-height:1.2;
+  padding:2px 6px;border-radius:6px;text-shadow:0 1px 6px rgba(0,0,0,.45)}
+#fw-desktop[data-theme="light"] .fw-shortcut-name{text-shadow:0 1px 6px rgba(255,255,255,.9)}
+
+.fw-windows{position:absolute;inset:0;pointer-events:none}
+.fw-window{position:absolute;pointer-events:auto;display:flex;flex-direction:column;min-width:260px;min-height:180px;
+  border:1px solid var(--fw-line-strong);border-radius:var(--fw-radius);overflow:hidden;
+  background:var(--fw-surface);box-shadow:var(--fw-shadow);
+  animation:fw-open .18s cubic-bezier(.2,.7,.3,1) both;transition:box-shadow .16s,border-color .16s}
+.fw-window[hidden]{display:none!important}
+.fw-window[data-focused="true"]{border-color:rgba(138,180,255,.72);
+  box-shadow:var(--fw-shadow),0 0 0 1px var(--fw-focus)}
+.fw-window[data-state="snapped-left"],.fw-window[data-state="snapped-right"]{border-radius:var(--fw-radius) 0 0 var(--fw-radius)}
+.fw-window[data-state="snapped-right"]{border-radius:0 var(--fw-radius) var(--fw-radius) 0}
+@keyframes fw-open{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
+.fw-titlebar{display:flex;align-items:center;gap:10px;min-height:40px;padding:0 8px 0 12px;
+  background:linear-gradient(180deg,var(--fw-surface-3),var(--fw-surface-2));
+  border-bottom:1px solid var(--fw-line);cursor:default;touch-action:none;user-select:none}
+.fw-titlebar .fw-icon{width:20px;height:20px}
+.fw-title{font-size:13px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fw-title-actions{display:flex;gap:2px;margin-left:auto}
+.fw-title-button{width:34px;height:30px;border:0;border-radius:7px;background:transparent;color:var(--fw-on-surface);
+  font-size:15px;line-height:1;cursor:pointer;transition:background .14s}
+.fw-title-button:hover{background:var(--fw-accent-soft)}
+.fw-title-button[data-action="close"]:hover{background:var(--fw-danger);color:#fff}
+.fw-title-button[hidden]{display:none}
+.fw-window-body{flex:1;min-height:0;background:var(--fw-surface);overflow:hidden}
+.fw-app-host{height:100%;overflow:auto;overscroll-behavior:contain;background:var(--fw-surface);color:var(--fw-on-surface)}
+.fw-resize{position:absolute;z-index:2}
+.fw-resize-n,.fw-resize-s{left:12px;right:12px;height:6px;cursor:ns-resize}
+.fw-resize-n{top:-3px}.fw-resize-s{bottom:-3px}
+.fw-resize-e,.fw-resize-w{top:12px;bottom:12px;width:6px;cursor:ew-resize}
+.fw-resize-e{right:-3px}.fw-resize-w{left:-3px}
+.fw-resize-ne,.fw-resize-nw,.fw-resize-se,.fw-resize-sw{width:16px;height:16px}
+.fw-resize-ne{top:-5px;right:-5px;cursor:nesw-resize}.fw-resize-nw{top:-5px;left:-5px;cursor:nwse-resize}
+.fw-resize-se{bottom:-5px;right:-5px;cursor:nwse-resize}.fw-resize-sw{bottom:-5px;left:-5px;cursor:nesw-resize}
+
+.fw-taskbar{position:absolute;z-index:40;left:0;right:0;bottom:0;height:66px;display:flex;align-items:center;gap:10px;
+  padding:8px 18px;border-top:1px solid var(--fw-line);background:var(--fw-glass);
+  backdrop-filter:var(--fw-blur);box-shadow:0 -8px 34px rgba(4,10,26,.20)}
+.fw-task-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;min-width:44px;
+  padding:0 12px;border:1px solid var(--fw-line);border-radius:11px;background:var(--fw-glass-strong);
+  color:var(--fw-text);font-size:13px;font-weight:600;cursor:pointer;transition:transform .16s,background .16s}
+.fw-task-button:hover{transform:translateY(-2px)}
+.fw-start .fw-icon{width:24px;height:24px}
+.fw-task-items{display:flex;align-items:center;gap:8px;min-width:0;flex:1;overflow-x:auto;scrollbar-width:none}
+.fw-task-items::-webkit-scrollbar{display:none}
+.fw-task-item{display:inline-flex;align-items:center;gap:8px;max-width:190px;min-height:44px;padding:0 12px;
+  border:1px solid transparent;border-radius:11px;background:transparent;color:var(--fw-text);font-size:13px;
+  cursor:pointer;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;transition:background .16s}
+.fw-task-item .fw-icon{width:22px;height:22px;flex:none}
+.fw-task-item:hover{background:var(--fw-glass-strong)}
+.fw-task-item.is-active{background:var(--fw-glass-strong);border-color:var(--fw-line-strong)}
+.fw-task-item.is-active::after{content:"";width:4px;height:4px;border-radius:50%;background:var(--fw-accent-2);flex:none}
+.fw-task-item.is-minimized{opacity:.68}
+.fw-switcher .fw-icon{width:22px;height:22px;flex:none}
+.fw-clock{min-width:64px;text-align:right;font-size:13px;font-weight:650;font-variant-numeric:tabular-nums}
+
+.fw-start-panel,.fw-switcher-panel{position:absolute;z-index:50;bottom:76px;
+  border:1px solid var(--fw-line-strong);border-radius:var(--fw-radius-lg);
+  background:var(--fw-glass-strong);backdrop-filter:var(--fw-blur);box-shadow:var(--fw-shadow);
+  color:var(--fw-text);animation:fw-rise .18s cubic-bezier(.2,.7,.3,1) both}
+.fw-start-panel[hidden],.fw-switcher-panel[hidden]{display:none}
+@keyframes fw-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.fw-start-panel{left:18px;width:min(430px,calc(100vw - 36px));padding:18px;max-height:min(560px,calc(100vh - 92px));overflow:auto}
+.fw-switcher-panel{right:18px;width:min(300px,calc(100vw - 36px));padding:12px;
+  max-height:min(560px,calc(100vh - 92px));overflow:auto}
+.fw-start-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.fw-start-head h2{margin:0;font-size:17px;letter-spacing:-.01em}
+.fw-start-head span{font-size:11px;color:var(--fw-muted);text-transform:uppercase;letter-spacing:.12em}
+.fw-search{width:100%;height:44px;padding:0 14px;border:1px solid var(--fw-line-strong);border-radius:11px;
+  background:var(--fw-glass);color:var(--fw-text);outline:none}
+.fw-search::placeholder{color:var(--fw-muted)}
+.fw-search:focus-visible{border-color:var(--fw-focus);box-shadow:0 0 0 2px var(--fw-accent-soft)}
+.fw-label{margin:16px 0 8px;font-size:11px;font-weight:700;color:var(--fw-muted);text-transform:uppercase;letter-spacing:.1em}
+.fw-results{display:grid;gap:6px}
+.fw-result{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;padding:6px 10px;
+  border:1px solid transparent;border-radius:11px;background:transparent;color:var(--fw-text);
+  text-align:left;cursor:pointer}
+.fw-result:hover,.fw-result.is-active{background:var(--fw-accent-soft);border-color:var(--fw-line)}
+.fw-result .fw-icon{width:30px;height:30px;flex:none}
+.fw-result-name{font-size:14px;font-weight:600}
+.fw-result-hint{margin-left:auto;font-size:11px;color:var(--fw-muted)}
+.fw-empty{margin:10px 2px;font-size:13px;color:var(--fw-on-muted)}
+.fw-quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.fw-quick button{min-height:44px;padding:0 10px;border-radius:9px;border:1px solid var(--fw-line);
+  background:var(--fw-glass);color:var(--fw-text);font-size:12px;cursor:pointer}
+.fw-quick button[aria-pressed="true"]{background:var(--fw-accent);border-color:transparent;color:#fff}
+.fw-start-foot{margin-top:16px;padding-top:12px;border-top:1px solid var(--fw-line);font-size:11px;color:var(--fw-muted)}
+.fw-notice{position:absolute;z-index:60;top:64px;left:50%;transform:translateX(-50%);
+  max-width:min(560px,calc(100vw - 32px));padding:10px 16px;border-radius:12px;
+  border:1px solid var(--fw-line);background:var(--fw-glass-strong);backdrop-filter:var(--fw-blur);
+  box-shadow:var(--fw-shadow);font-size:13px}
+.fw-notice:empty{display:none}
+.fw-app-error{padding:28px;max-width:520px}
+.fw-app-error h2{margin:0 0 8px;font-size:18px}
+.fw-app-error p{margin:0 0 16px;color:var(--fw-on-muted);font-size:14px}
+.fw-retry{padding:10px 16px;border:0;border-radius:10px;background:var(--fw-accent);color:#fff;font-weight:600;cursor:pointer}
+
+.fw-recent-section{margin-top:14px}
+.fw-recent{display:grid;gap:4px}
+.fw-recent-item{display:flex;align-items:center;gap:8px;width:100%;min-height:44px;padding:6px 10px;
+  border:1px solid transparent;border-radius:9px;background:transparent;color:var(--fw-text);
+  text-align:left;cursor:pointer;font-size:13px}
+.fw-recent-item:hover,.fw-recent-item:focus-visible{background:var(--fw-accent-soft);border-color:var(--fw-line)}
+.fw-recent-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fw-recent-app{margin-left:auto;font-size:11px;color:var(--fw-muted)}
+.fw-window-menu{position:absolute;z-index:6;top:36px;right:6px;width:min(260px,calc(100% - 12px));
+  padding:12px;border-radius:12px;border:1px solid var(--fw-line-strong);
+  background:var(--fw-glass-strong);color:var(--fw-text);box-shadow:var(--fw-shadow);font-size:12px}
+.fw-window-menu-hint{margin:0 0 8px;line-height:1.4;color:var(--fw-on-muted)}
+.fw-menu-choice{display:block;width:100%;min-height:44px;margin-bottom:6px;padding:0 10px;
+  border:1px solid var(--fw-line);border-radius:8px;background:var(--fw-glass);
+  color:var(--fw-text);text-align:left;cursor:pointer;font-size:12px}
+.fw-menu-choice:hover,.fw-menu-choice:focus-visible{border-color:var(--fw-focus);background:var(--fw-accent-soft)}
+.fw-window-menu-readout{margin:6px 0 0;font-variant-numeric:tabular-nums;color:var(--fw-accent-2)}
+
+/* On-screen keyboard: lift bottom-anchored chrome and shrink the work area to
+   the visual viewport so a focused input is never left behind the keyboard. */
+#fw-desktop[data-keyboard="true"] .fw-desktop-area{bottom:calc(66px + var(--fw-keyboard-inset))}
+#fw-desktop[data-keyboard="true"] .fw-taskbar{bottom:var(--fw-keyboard-inset)}
+#fw-desktop[data-keyboard="true"] .fw-start-panel,
+#fw-desktop[data-keyboard="true"] .fw-switcher-panel{bottom:calc(76px + var(--fw-keyboard-inset))}
+
+#fw-desktop :focus-visible{outline:2px solid var(--fw-focus);outline-offset:2px}
+@media (max-width:767px),(max-height:499px){
+  .fw-title-button[data-action="window-menu"]{display:none}
+  .fw-topbar{height:48px;padding:0 12px}
+  .fw-brand small{display:none}
+  .fw-exit{min-height:44px;padding:0 12px;font-size:12px}
+  .fw-title-button{width:44px;height:44px;min-width:44px;min-height:44px;flex:none}
+  .fw-desktop-area{inset:48px 0 60px}
+  .fw-shortcuts{top:8px;left:10px;right:10px;display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;
+    max-height:calc(100% - 16px);scrollbar-width:none}
+  .fw-shortcut{flex:none;min-height:66px;padding:6px;gap:4px}
+  .fw-shortcut .fw-icon{width:34px;height:34px}
+  .fw-shortcut-name{font-size:11px;max-width:72px}
+  .fw-window{inset:88px 8px 8px!important;width:auto!important;height:auto!important;left:8px!important;top:88px!important;right:8px!important;bottom:8px!important}
+  .fw-window[data-foreground="false"]{display:none!important}
+  .fw-resize{display:none}
+  .fw-taskbar{height:60px;padding:6px 10px;gap:6px}
+  .fw-task-button{padding:0 10px}
+  .fw-start span,.fw-switcher span{display:none}
+  .fw-start-panel{bottom:68px;left:8px;width:calc(100vw - 16px);max-height:calc(100vh - 80px);padding:14px}
+  .fw-switcher-panel{bottom:68px;right:8px;max-height:calc(100vh - 80px)}
+  .fw-notice{top:52px}
+  #fw-desktop[data-keyboard="true"] .fw-desktop-area{bottom:calc(60px + var(--fw-keyboard-inset))}
+  #fw-desktop[data-keyboard="true"] .fw-start-panel,
+  #fw-desktop[data-keyboard="true"] .fw-switcher-panel{bottom:calc(68px + var(--fw-keyboard-inset))}
+}

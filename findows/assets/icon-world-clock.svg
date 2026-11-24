@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6f7cff"/><stop offset="1" stop-color="#12b8ac"/></linearGradient>
+    <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".36"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <clipPath id="globe"><circle cx="32" cy="33" r="17"/></clipPath>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#tile)"/>
+  <rect x="2.8" y="2.8" width="58.4" height="30" rx="15" fill="url(#gloss)"/>
+  <rect x="2.8" y="2.8" width="58.4" height="58.4" rx="15.2" fill="none" stroke="#fff" stroke-opacity=".38"/>
+  <circle cx="32" cy="33" r="19.4" fill="#0b1a3a" fill-opacity=".24"/>
+  <circle cx="32" cy="33" r="17" fill="#fff"/>
+  <g clip-path="url(#globe)" fill="none" stroke="#4f6df5" stroke-opacity=".42" stroke-width="1.6">
+    <ellipse cx="32" cy="33" rx="8" ry="17"/>
+    <path d="M15 33h34M18 25.5h28M18 40.5h28"/>
+    <path d="M32 16c-9 5-9 29 0 34M32 16c9 5 9 29 0 34" stroke-opacity=".22"/>
+  </g>
+  <circle cx="32" cy="33" r="17" fill="none" stroke="#24345f" stroke-opacity=".55" stroke-width="2"/>
+  <path d="M32 33l7.5-6" fill="none" stroke="#16b8a6" stroke-width="3.6" stroke-linecap="round"/>
+  <circle cx="32" cy="33" r="2.6" fill="#24345f"/>
+  <path d="M28 9.5h8" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-opacity=".9"/>
+</svg>

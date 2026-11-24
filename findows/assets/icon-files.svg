@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="fileTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc978"/><stop offset="1" stop-color="#4f6df5"/></linearGradient>
+    <linearGradient id="fileGloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#fileTile)"/>
+  <rect x="2.8" y="2.8" width="58.4" height="30" rx="15" fill="url(#fileGloss)"/>
+  <rect x="2.8" y="2.8" width="58.4" height="58.4" rx="15.2" fill="none" stroke="#fff" stroke-opacity=".38"/>
+  <path d="M10 22a5 5 0 0 1 5-5h11l5 5h17a5 5 0 0 1 5 5v21a5 5 0 0 1-5 5H15a5 5 0 0 1-5-5z" fill="#24345f" fill-opacity=".28"/>
+  <path d="M10 26a5 5 0 0 1 5-5h34a5 5 0 0 1 5 5v20a5 5 0 0 1-5 5H15a5 5 0 0 1-5-5z" fill="#fff"/>
+  <path d="M10 29h44v4H10z" fill="#dbe6ff"/>
+  <rect x="17" y="37" width="14" height="9" rx="2" fill="#4f6df5"/>
+  <rect x="34" y="37" width="14" height="9" rx="2" fill="#16b8a6"/>
+  <path d="M20 41h8M37 41h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+</svg>

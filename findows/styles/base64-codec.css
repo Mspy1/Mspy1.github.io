@@ -1,0 +1,283 @@
+/* Base64 & URL codec surface. Every selector is prefixed with .b64-; no globals. */
+
+.b64-app {
+  --b64-bg: var(--fw-surface, #101626);
+  --b64-surface: var(--fw-surface-2, #161f33);
+  --b64-surface-3: var(--fw-surface-3, #1e2942);
+  --b64-ink: var(--fw-on-surface, #f5f8ff);
+  --b64-muted: var(--fw-on-muted, #a8b6d2);
+  --b64-line: var(--fw-line-strong, rgba(255, 255, 255, .32));
+  --b64-accent: var(--fw-accent, #4f6df5);
+  --b64-accent-2: var(--fw-accent-2, #16b8a6);
+  --b64-focus: var(--fw-focus, #8ab4ff);
+  --b64-danger: var(--fw-danger, #ff6b7a);
+  container: b64 / inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 16px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border-radius: inherit;
+  color: var(--b64-ink);
+  background:
+    radial-gradient(110% 80% at 100% 0%, rgba(79, 109, 245, .14), transparent 62%),
+    linear-gradient(180deg, var(--b64-bg), var(--b64-surface));
+  font-family: var(--fw-font, system-ui, -apple-system, "Segoe UI", sans-serif);
+}
+
+.b64-app *,
+.b64-app *::before,
+.b64-app *::after {
+  box-sizing: border-box;
+}
+
+.b64-head {
+  flex: none;
+}
+
+.b64-title {
+  margin: 0;
+  font-size: clamp(17px, 2.6vw, 22px);
+  font-weight: 750;
+  letter-spacing: -.02em;
+}
+
+.b64-subtitle {
+  margin: 3px 0 0;
+  color: var(--b64-muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.b64-modes {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.b64-mode {
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid var(--b64-line);
+  border-radius: 11px;
+  color: var(--b64-muted);
+  background: var(--b64-surface);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background-color .16s ease, border-color .16s ease, color .16s ease;
+}
+
+.b64-mode:hover {
+  border-color: var(--b64-accent);
+  color: var(--b64-ink);
+}
+
+.b64-mode[aria-pressed="true"] {
+  border-color: var(--b64-accent);
+  color: #fff;
+  background: linear-gradient(140deg, var(--b64-accent), var(--b64-accent-2));
+  box-shadow: 0 0 0 2px rgba(79, 109, 245, .2);
+}
+
+.b64-fields {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  min-height: 0;
+}
+
+.b64-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding: 10px;
+  border: 1px solid var(--b64-line);
+  border-radius: 14px;
+  background: var(--b64-surface);
+}
+
+.b64-label {
+  flex: none;
+  margin-bottom: 7px;
+  color: var(--b64-muted);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.b64-input,
+.b64-output {
+  display: block;
+  flex: 1;
+  width: 100%;
+  min-height: 96px;
+  margin: 0;
+  padding: 9px 10px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  color: var(--b64-ink);
+  background: var(--b64-bg);
+  font: 13px/1.5 ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  overflow: auto;
+  tab-size: 2;
+}
+
+.b64-input {
+  resize: vertical;
+}
+
+.b64-input:focus-visible,
+.b64-output:focus-visible {
+  outline: 2px solid var(--b64-focus);
+  outline-offset: 1px;
+}
+
+.b64-input[aria-invalid="true"] {
+  border-color: var(--b64-danger);
+}
+
+.b64-actions {
+  display: flex;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.b64-action,
+.b64-copy {
+  min-height: 44px;
+  padding: 8px 13px;
+  border: 1px solid var(--b64-line);
+  border-radius: 11px;
+  color: var(--b64-ink);
+  background: var(--b64-surface);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .08s ease, background-color .16s ease, border-color .16s ease;
+}
+
+.b64-action:hover,
+.b64-copy:hover {
+  border-color: var(--b64-accent);
+  background: var(--b64-surface-3);
+}
+
+.b64-action:active,
+.b64-copy:active {
+  transform: translateY(1px);
+}
+
+.b64-primary {
+  border-color: transparent;
+  color: #fff;
+  background: linear-gradient(140deg, var(--b64-accent), var(--b64-accent-2));
+}
+
+.b64-copy {
+  margin-inline-start: auto;
+  border-style: dashed;
+}
+
+.b64-error {
+  flex: none;
+  margin: 0;
+  padding: 9px 11px;
+  border-left: 3px solid var(--b64-danger);
+  border-radius: 8px;
+  color: var(--b64-danger);
+  background: var(--b64-surface-3);
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.b64-error[hidden] {
+  display: none;
+}
+
+.b64-status {
+  flex: none;
+  min-height: 17px;
+  margin: 0;
+  color: var(--b64-accent-2);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.b64-hint {
+  flex: none;
+  margin: 0;
+  color: var(--b64-muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+@container b64 (max-width: 620px) {
+  .b64-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .b64-input,
+  .b64-output {
+    min-height: 72px;
+  }
+
+  .b64-copy {
+    margin-inline-start: 0;
+  }
+}
+
+@media (max-width: 767px), (max-height: 499px) {
+  .b64-app {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .b64-subtitle,
+  .b64-hint {
+    display: none;
+  }
+
+  .b64-input,
+  .b64-output {
+    min-height: 60px;
+  }
+
+  .b64-action,
+  .b64-copy,
+  .b64-mode {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .b64-mode,
+  .b64-action,
+  .b64-copy {
+    transition: none;
+  }
+
+  .b64-action:active,
+  .b64-copy:active {
+    transform: none;
+  }
+}

@@ -193,6 +193,11 @@ footer a,footer .fbtn{color:var(--muted);transition:color .2s}
 footer a:hover,footer .fbtn:hover{color:var(--ink)}
 .fbtn{background:none;border:0;font:inherit;cursor:pointer;padding:0}
 footer .sp{margin-left:auto}
+#findows-easter-egg{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;margin:-12px -10px;border-radius:12px;opacity:.62;font-size:15px;line-height:1;transition:opacity .2s,background .2s}
+#findows-easter-egg:hover{opacity:1;background:var(--bg-alt)}
+#findows-easter-egg:focus-visible{outline:2px solid var(--blue);outline-offset:2px;opacity:1}
+#findows-hint{display:block;flex-basis:100%;margin:0;font-size:11px;line-height:1.4;font-style:italic;opacity:.42;color:var(--muted);pointer-events:none}
+#findows-hint[hidden]{display:none}
 .genz-btn{border:1px solid var(--line);background:var(--surface);color:var(--ink-2);font:inherit;font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;cursor:pointer;transition:all .2s;white-space:nowrap}
 .genz-btn:hover{border-color:var(--ink-2);color:var(--ink)}
 
@@ -499,6 +504,8 @@ div.svc:hover .svc-name{color:inherit}
     <span>© 2026 Mspy1</span>
     <span class="sp"></span>
     <a href="/games/">Games</a>
+    <a id="findows-easter-egg" href="/findows/" title="Open Findows — a tiny desktop" aria-label="Open Findows desktop" data-i18n-aria="findows_launcher" data-i18n-title="findows_launcher_title"><span aria-hidden="true">🖥️</span></a>
+    <span id="findows-hint"><span data-i18n="findows_hint">A small desktop is hidden here</span> <span aria-hidden="true">🖥️</span></span>
   </div>
 </footer>
 
@@ -527,7 +534,8 @@ const PRO={
   code_title:"Açık kaynak.",code_lead:"GitHub'daki seçili repolarım.",code_all:"Tüm repolar",
   rp1:"Shell fork'undaki ayar commit'lerim.",rp2:"Arşivlenmiş Windows Batch scripti.",rp3:"Bu site — küçük bir HTML/CSS portfolyo.",rp4:"C++ RDR2 mod menüsünün CI iş akışlı fork'u.",
   contact_title:"Konuşalım.",contact_lead:"Android/Linux ayarları, küçük scriptler ve oyun modlarıyla ilgileniyorum. Yeni denemelere ve yan projelere her zaman açığım.",email_label:"E-posta",
-   genz_btn:"Gen Z modu",cs_more:"Detaylar",games_kicker:"Kısa bir oyun molası",games_play:"Bu oyunu oyna",games_all:"Tüm oyunlara göz at →"},
+   genz_btn:"Gen Z modu",cs_more:"Detaylar",games_kicker:"Kısa bir oyun molası",games_play:"Bu oyunu oyna",games_all:"Tüm oyunlara göz at →",findows_launcher:"Findows masaüstünü aç",
+   findows_launcher_title:"Findows'u aç — küçük bir masaüstü",findows_hint:"Küçük bir masaüstü burada saklı"},
  de:{title:"Mspy1",
   nav_about:"Über mich",nav_work:"Projekte",nav_lab:"Lab",nav_games:"Spiele",nav_contact:"Kontakt",
   hero_eyebrow:"Mspy1 · Mods, Tools & Web",hero_title:"Game-Mods, Skripte und das Web.",
@@ -549,7 +557,8 @@ const PRO={
   code_title:"Open Source.",code_lead:"Ausgewählte Repositories auf GitHub.",code_all:"Alle Repositories",
   rp1:"Meine Tuning-Commits in einem Shell-Fork.",rp2:"Archiviertes Windows-Batch-Skript.",rp3:"Diese Seite — ein kleines HTML/CSS-Portfolio.",rp4:"Fork eines C++-RDR2-Mod-Menüs mit CI-Workflows.",
   contact_title:"Lass uns reden.",contact_lead:"Ich interessiere mich für Android-/Linux-Tuning, kleine Skripte und Game-Mods. Für neue Basteleien und Nebenprojekte bin ich immer dabei.",email_label:"E-Mail",
-   genz_btn:"Gen-Z-Modus",cs_more:"Mehr erfahren",games_kicker:"Eine kleine Spielpause",games_play:"Dieses Spiel spielen",games_all:"Alle Spiele ansehen →"}
+   genz_btn:"Gen-Z-Modus",cs_more:"Mehr erfahren",games_kicker:"Eine kleine Spielpause",games_play:"Dieses Spiel spielen",games_all:"Alle Spiele ansehen →",findows_launcher:"Findows-Desktop öffnen",
+   findows_launcher_title:"Findows öffnen — ein kleiner Desktop",findows_hint:"Hier versteckt sich ein kleiner Desktop"}
 };
 const GENZ={
  en:{title:"Mspy1",hero_eyebrow:"Mspy1 · mods, scripts & web 🥀",hero_title:"bro tweaks kernels 💀",
@@ -591,6 +600,8 @@ const GENZ={
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const store={get(k){try{return localStorage.getItem(k);}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,v);}catch(e){}},del(k){try{localStorage.removeItem(k);}catch(e){}}};
 const EN={title:document.title}; $$("[data-i18n]").forEach(el=>{ EN[el.dataset.i18n]=el.textContent; });
+$$("[data-i18n-aria]").forEach(el=>{ EN[el.dataset.i18nAria]=el.getAttribute("aria-label"); });
+$$("[data-i18n-title]").forEach(el=>{ EN[el.dataset.i18nTitle]=el.getAttribute("title"); });
 PRO.en=EN;
 Object.assign(EN,{title:"Mspy1",hero_eyebrow:"Mspy1 · Mods, tools & the web",c1_tag:"Shell",c2_tag:"Batch",c3_tag:"C++ fork",c4_tag:"Kotlin fork",c5_tag:"Upstream",c6_tag:"HTML/CSS",rq_sent:"Thanks! Your email app will open with the request — press Send there to complete it.",rq_err:"Please enter your name and a valid email, and tick the box.",rq_many:"Too many requests. Please try again later or email me.",rq_fail:"Couldn't send. Please email me directly."});
 let lang=["en","tr","de"].includes(store.get("site-lang"))?store.get("site-lang"):"en";
@@ -642,6 +653,8 @@ function apply(first){
   document.title=t.title;
   document.body.classList.toggle("genz",genz);
   $$("[data-i18n]").forEach(el=>{ const k=el.dataset.i18n; if(k in t && k!=="hero_title") el.textContent=t[k]; });
+  $$("[data-i18n-aria]").forEach(el=>{ const k=el.dataset.i18nAria; if(k in t) el.setAttribute("aria-label",t[k]); });
+  $$("[data-i18n-title]").forEach(el=>{ const k=el.dataset.i18nTitle; if(k in t) el.setAttribute("title",t[k]); });
   $$(".seg button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===lang)));
   const h=$("#heroTitle"), hero=$("#hero");
   hero.classList.remove("ready"); hero.classList.add("reset"); void h.offsetWidth;
@@ -796,6 +809,14 @@ rq.addEventListener("submit",e=>{
 });
 
 apply(true);
+/* Explicit return from Findows: focus the same launcher, no forced animation. */
+if(location.hash==="#findows-easter-egg"){
+  try{document.getElementById("findows-easter-egg").focus({preventScroll:true});}catch(e){document.getElementById("findows-easter-egg").focus();}
+}
+/* First-run hint: a subtle footer nudge that retires once the desktop is opened. */
+const fwindowsHint=$("#findows-hint");
+if(fwindowsHint && store.get("findows-hint-seen")==="1") fwindowsHint.hidden=true;
+$("#findows-easter-egg").addEventListener("click",()=>{ store.set("findows-hint-seen","1"); if(fwindowsHint) fwindowsHint.hidden=true; });
 observe();
 onScroll(); phoneMotion(); heroDrift(); recede();
 </script>

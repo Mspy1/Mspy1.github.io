@@ -1,0 +1,28 @@
+/* App surfaces are opaque and high contrast; no glass behind text. */
+.help-doc{min-height:100%;padding:26px 28px 32px;line-height:1.55}
+.help-header{position:relative;padding:0 0 18px;margin-bottom:20px;border-bottom:1px solid var(--fw-line)}
+.help-header::after{content:"";position:absolute;right:0;top:0;width:84px;height:84px;border-radius:24px;
+  background:linear-gradient(140deg,var(--fw-accent),var(--fw-accent-2));opacity:.16;transform:rotate(-12deg)}
+.help-eyebrow{display:inline-block;margin-bottom:8px;font-size:11px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--fw-accent)}
+.help-header h1{margin:0;font-size:26px;letter-spacing:-.02em}
+.help-header p{margin:8px 0 0;max-width:56ch;font-size:14px;color:var(--fw-on-muted)}
+.help-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 24px}
+.help-col{min-width:0}
+.help-section{margin:0 0 20px}
+.help-section h2{margin:0 0 8px;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--fw-accent-2)}
+.help-section p{margin:0 0 8px;font-size:13.5px;color:var(--fw-on-surface)}
+.help-keys{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:7px}
+.help-keys li{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--fw-on-muted)}
+.help-keys kbd{flex:none;min-width:64px;text-align:center;padding:3px 7px;border-radius:7px;
+  border:1px solid var(--fw-line-strong);border-bottom-width:2px;background:var(--fw-surface-2);
+  color:var(--fw-on-surface);font:600 11px/1.4 var(--fw-font)}
+.help-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  margin-top:6px;padding-top:14px;border-top:1px solid var(--fw-line);font-size:11px;color:var(--fw-muted)}
+.help-footer a{color:var(--fw-accent);font-weight:650;text-decoration:none}
+.help-footer a:hover{text-decoration:underline}
+@media (max-width:620px){
+  .help-doc{padding:16px 16px 24px}
+  .help-header h1{font-size:21px}
+  .help-grid{grid-template-columns:1fr;gap:0}
+}

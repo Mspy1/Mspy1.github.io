@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="setTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9a8bff"/><stop offset="1" stop-color="#2ec4b6"/></linearGradient>
+    <linearGradient id="setGloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#setTile)"/>
+  <rect x="2.8" y="2.8" width="58.4" height="30" rx="15" fill="url(#setGloss)"/>
+  <rect x="2.8" y="2.8" width="58.4" height="58.4" rx="15.2" fill="none" stroke="#fff" stroke-opacity=".38"/>
+  <g fill="#fff" fill-opacity=".95">
+    <rect x="29" y="8" width="6" height="10" rx="2"/>
+    <rect x="29" y="46" width="6" height="10" rx="2"/>
+    <rect x="8" y="29" width="10" height="6" rx="2"/>
+    <rect x="46" y="29" width="10" height="6" rx="2"/>
+    <rect x="14" y="14" width="9" height="6" rx="2" transform="rotate(45 18.5 17)"/>
+    <rect x="41" y="44" width="9" height="6" rx="2" transform="rotate(45 45.5 47)"/>
+    <rect x="44" y="14" width="9" height="6" rx="2" transform="rotate(-45 48.5 17)"/>
+    <rect x="11" y="44" width="9" height="6" rx="2" transform="rotate(-45 15.5 47)"/>
+  </g>
+  <circle cx="32" cy="32" r="14" fill="#24345f" fill-opacity=".24"/>
+  <circle cx="32" cy="32" r="11" fill="#fff"/>
+  <circle cx="32" cy="32" r="6.5" fill="#4f6df5"/>
+  <circle cx="32" cy="32" r="2.5" fill="#16b8a6"/>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="ctTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b7bff"/><stop offset="1" stop-color="#16b8a6"/></linearGradient>
+    <linearGradient id="ctGloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#ctTile)"/>
+  <rect x="2.8" y="2.8" width="58.4" height="29" rx="15" fill="url(#ctGloss)"/>
+  <rect x="2.8" y="2.8" width="58.4" height="58.4" rx="15.2" fill="none" stroke="#fff" stroke-opacity=".38"/>
+  <g fill-opacity=".96">
+    <circle cx="32" cy="16.5" r="8.6" fill="#ff6b7a"/>
+    <circle cx="45" cy="24" r="8.6" fill="#ffd479"/>
+    <circle cx="45" cy="40" r="8.6" fill="#5ad6a6"/>
+    <circle cx="32" cy="47.5" r="8.6" fill="#4fc3f7"/>
+    <circle cx="19" cy="40" r="8.6" fill="#8b7bff"/>
+    <circle cx="19" cy="24" r="8.6" fill="#ff8ad1"/>
+  </g>
+  <circle cx="32" cy="32" r="11" fill="#101a35" fill-opacity=".92"/>
+  <circle cx="32" cy="32" r="9.4" fill="#fff"/>
+  <path d="M32 24.2c0 0 6.2 7.2 6.2 11.1a6.2 6.2 0 0 1-12.4 0C25.8 31.4 32 24.2 32 24.2Z" fill="url(#ctTile)"/>
+  <path d="M29.2 33.6c.2 1.6 1.1 2.5 2.4 2.8" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.6" stroke-linecap="round"/>
+</svg>

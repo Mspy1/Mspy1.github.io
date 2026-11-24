@@ -1,0 +1,56 @@
+/* Findows design tokens. Original palette; glass is confined to the shell. */
+#fw-desktop{
+  --fw-space:8px;
+  --fw-radius:14px;
+  --fw-radius-lg:22px;
+  --fw-font:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --fw-accent:#4f6df5;
+  --fw-accent-2:#16b8a6;
+  --fw-accent-soft:rgba(79,109,245,.16);
+  --fw-text:#f7f9ff;
+  --fw-text-2:#cfd8ea;
+  --fw-muted:#9eabc4;
+  --fw-line:rgba(255,255,255,.18);
+  --fw-line-strong:rgba(255,255,255,.32);
+  --fw-glass:rgba(18,26,48,.62);
+  --fw-glass-strong:rgba(15,22,42,.86);
+  --fw-surface:#101626;
+  --fw-surface-2:#161f33;
+  --fw-surface-3:#1e2942;
+  --fw-on-surface:#f5f8ff;
+  --fw-on-muted:#a8b6d2;
+  --fw-shadow:0 24px 70px rgba(3,8,24,.48),0 4px 14px rgba(3,8,24,.22);
+  --fw-blur:blur(24px) saturate(150%);
+  --fw-focus:#8ab4ff;
+  --fw-danger:#ff6b7a;
+  color-scheme:dark;
+}
+#fw-desktop[data-theme="light"]{
+  --fw-text:#18203a;
+  --fw-text-2:#3b4765;
+  --fw-muted:#63708e;
+  --fw-line:rgba(18,32,64,.14);
+  --fw-line-strong:rgba(18,32,64,.28);
+  --fw-glass:rgba(255,255,255,.72);
+  --fw-glass-strong:rgba(252,253,255,.94);
+  --fw-surface:#ffffff;
+  --fw-surface-2:#f3f6fc;
+  --fw-surface-3:#e8edf8;
+  --fw-on-surface:#18203a;
+  --fw-on-muted:#5c6985;
+  --fw-shadow:0 24px 60px rgba(35,52,92,.22),0 4px 12px rgba(35,52,92,.10);
+  --fw-blur:blur(22px) saturate(140%);
+  --fw-focus:#2b5fd9;
+  --fw-danger:#c6263d;
+  color-scheme:light;
+}
+#fw-desktop[data-translucent="false"]{ --fw-blur:none; --fw-glass:var(--fw-glass-strong); }
+#fw-desktop[data-reduce-motion="true"] *,
+#fw-desktop[data-reduce-motion="true"] *::before,
+#fw-desktop[data-reduce-motion="true"] *::after{
+  animation-duration:.001ms!important;animation-iteration-count:1!important;
+  transition-duration:.001ms!important;scroll-behavior:auto!important;
+}
+@media (prefers-reduced-motion:reduce){
+  #fw-desktop *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}

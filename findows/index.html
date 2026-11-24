@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Findows — a small desktop by Mspy1</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0b1230">
+<link rel="icon" href="assets/icon-findows.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles/tokens.css">
+<link rel="stylesheet" href="styles/shell.css">
+<link rel="stylesheet" href="styles/apps.css">
+<link rel="stylesheet" href="styles/calculator.css">
+<link rel="stylesheet" href="styles/files.css">
+<link rel="stylesheet" href="styles/notepad.css">
+<link rel="stylesheet" href="styles/clock.css">
+<link rel="stylesheet" href="styles/settings.css">
+<link rel="stylesheet" href="styles/diagnostics.css">
+<link rel="stylesheet" href="styles/minesweeper.css">
+<link rel="stylesheet" href="styles/sticky-notes.css">
+<link rel="stylesheet" href="styles/paint.css">
+<link rel="stylesheet" href="styles/photo-viewer.css">
+<link rel="stylesheet" href="styles/unit-converter.css">
+<link rel="stylesheet" href="styles/json-formatter.css">
+<link rel="stylesheet" href="styles/base64-codec.css">
+<link rel="stylesheet" href="styles/hash-tool.css">
+<link rel="stylesheet" href="styles/date-calculator.css">
+<link rel="stylesheet" href="styles/world-clock.css">
+<link rel="stylesheet" href="styles/color-tools.css">
+<link rel="stylesheet" href="styles/text-toolkit.css">
+<link rel="stylesheet" href="styles/character-map.css">
+<link rel="stylesheet" href="styles/markdown-preview.css">
+<link rel="stylesheet" href="styles/read-aloud.css">
+<link rel="stylesheet" href="styles/snake.css">
+<link rel="stylesheet" href="styles/nonogram.css">
+<link rel="stylesheet" href="styles/fifteen-puzzle.css">
+<link rel="stylesheet" href="styles/game-of-life.css">
+<link rel="stylesheet" href="styles/tone-generator.css">
+<link rel="stylesheet" href="styles/sokoban.css">
+<link rel="stylesheet" href="styles/block-drop.css">
+<link rel="stylesheet" href="styles/hangman.css">
+<link rel="stylesheet" href="styles/mastermind.css">
+</head>
+<body>
+<div id="fw-desktop" data-theme="dark" data-layout="wide" data-reduce-motion="false" data-translucent="true">
+  <div class="fw-wallpaper" aria-hidden="true"></div>
+
+  <header class="fw-topbar">
+    <div class="fw-brand" id="fw-brand">
+      <img src="assets/icon-findows.svg" alt="" aria-hidden="true">
+      <span>Findows</span><small>a small browser desktop</small>
+    </div>
+    <a class="fw-exit" id="fw-exit" href="/#findows-easter-egg">Back to Mspy1</a>
+  </header>
+
+  <main class="fw-desktop-area" aria-label="Findows desktop">
+    <nav id="fw-shortcuts" class="fw-shortcuts" aria-label="Desktop shortcuts"></nav>
+    <div id="fw-windows" class="fw-windows"></div>
+  </main>
+
+  <div id="fw-notice" class="fw-notice" role="status" aria-live="polite"></div>
+
+  <section id="fw-start-panel" class="fw-start-panel" hidden aria-label="Start menu">
+    <div class="fw-start-head"><h2>Start</h2><span>Findows</span></div>
+    <input id="fw-search" class="fw-search" type="search" placeholder="Search apps" autocomplete="off" aria-label="Search apps">
+    <p class="fw-label">Apps</p>
+    <div id="fw-results" class="fw-results" role="group" aria-label="Apps"></div>
+    <p class="fw-label">Quick appearance</p>
+    <div class="fw-quick" role="group" aria-label="Quick appearance settings">
+      <button type="button" data-fw-theme="system" aria-pressed="false">System</button>
+      <button type="button" data-fw-theme="light" aria-pressed="false">Light</button>
+      <button type="button" data-fw-theme="dark" aria-pressed="false">Dark</button>
+      <button type="button" data-fw-toggle="motion" aria-pressed="false">Reduce motion</button>
+      <button type="button" data-fw-toggle="translucent" aria-pressed="true">Translucency</button>
+    </div>
+    <p class="fw-start-foot">Local browser desktop · no account, no tracking.</p>
+  </section>
+
+  <section id="fw-switcher-panel" class="fw-switcher-panel" hidden aria-label="Open apps">
+    <p class="fw-label">Switch apps</p>
+    <div id="fw-switcher-list" class="fw-results" role="group" aria-label="Open apps"></div>
+  </section>
+
+  <footer id="fw-taskbar" class="fw-taskbar" aria-label="Taskbar">
+    <button id="fw-start" class="fw-task-button fw-start" type="button" aria-expanded="false" aria-controls="fw-start-panel">
+      <img src="assets/icon-start.svg" alt="" aria-hidden="true"><span>Start</span>
+    </button>
+    <div id="fw-task-items" class="fw-task-items" role="group" aria-label="Running apps"></div>
+    <button id="fw-switcher" class="fw-task-button fw-switcher" type="button" aria-expanded="false" aria-controls="fw-switcher-panel" aria-label="Switch apps">
+      <img class="fw-icon" src="assets/icon-switch.svg" alt="" aria-hidden="true"><span>Switch apps</span>
+    </button>
+    <time id="fw-clock" class="fw-clock"></time>
+  </footer>
+
+  <noscript>
+    <div style="position:absolute;inset:20% 8%;padding:24px;border-radius:18px;background:#101626;color:#f5f8ff;font:16px/1.5 system-ui,sans-serif;text-align:center">
+      <h1>Findows needs JavaScript</h1>
+      <p>This browser desktop runs entirely in your browser tab. Enable JavaScript to open it, or
+      <a href="/#findows-easter-egg" style="color:#8ab4ff">return to Mspy1</a>.</p>
+    </div>
+  </noscript>
+</div>
+<script type="module" src="js/main.mjs"></script>
+</body>
+</html>

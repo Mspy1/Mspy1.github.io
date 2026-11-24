@@ -1,0 +1,184 @@
+/* Files app — scoped, opaque surfaces. Windows-inspired hierarchy, original
+   palette from tokens.css. No external assets, no untrusted markup. */
+.files-app{
+  --files-columns:24px minmax(140px,1.6fr) minmax(92px,.9fr) 76px 102px minmax(288px,auto);
+  --files-surface:var(--fw-surface,#101626);
+  --files-surface-2:var(--fw-surface-2,#161f33);
+  --files-surface-3:var(--fw-surface-3,#1e2942);
+  --files-text:var(--fw-on-surface,#f5f8ff);
+  --files-muted:var(--fw-on-muted,#a8b6d2);
+  --files-line:var(--fw-line,rgba(255,255,255,.18));
+  --files-accent:var(--fw-accent,#4f6df5);
+  --files-accent-soft:var(--fw-accent-soft,rgba(79,109,245,.16));
+  --files-teal:var(--fw-accent-2,#16b8a6);
+  --files-danger:var(--fw-danger,#ff6b7a);
+  --files-focus:var(--fw-focus,#8ab4ff);
+  position:relative;display:flex;flex-direction:column;min-height:100%;height:100%;
+  min-width:0;overflow:hidden;background:var(--files-surface);color:var(--files-text);
+  font:14px/1.45 var(--fw-font,system-ui,sans-serif);box-sizing:border-box;
+}
+.files-app *, .files-app *::before, .files-app *::after{box-sizing:border-box}
+.files-app :focus-visible{outline:2px solid var(--files-focus);outline-offset:2px}
+
+.files-header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  padding:14px 18px 12px;border-bottom:1px solid var(--files-line);background:var(--files-surface-2)}
+.files-title{margin:0;font-size:20px;font-weight:700;letter-spacing:-.02em}
+.files-subtitle{margin:0;flex:1 1 240px;font-size:11.5px;color:var(--files-muted)}
+.files-mode{display:inline-flex;align-items:center;gap:7px;padding:4px 10px;border-radius:999px;
+  border:1px solid var(--files-line);background:var(--files-surface);font-size:10.5px;font-weight:700;
+  letter-spacing:.03em;white-space:nowrap}
+.files-mode::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--files-teal)}
+.files-mode[data-mode="temporary"]{color:var(--files-danger);border-color:var(--files-danger)}
+.files-mode[data-mode="temporary"]::before{background:var(--files-danger)}
+
+.files-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 18px;
+  border-bottom:1px solid var(--files-line);background:var(--files-surface)}
+.files-button{appearance:none;border:1px solid var(--files-line-strong,var(--files-line));border-radius:9px;
+  background:var(--files-surface-2);color:var(--files-text);font:600 12px/1 var(--fw-font,system-ui,sans-serif);
+  padding:9px 12px;min-height:44px;cursor:pointer;transition:background .14s,border-color .14s,transform .14s}
+.files-button:hover:not(:disabled){background:var(--files-surface-3);border-color:var(--files-accent)}
+.files-button:active:not(:disabled){transform:translateY(1px)}
+.files-button:disabled{opacity:.5;cursor:default}
+.files-button--primary{background:var(--files-accent);border-color:transparent;color:#fff}
+.files-button--primary:hover:not(:disabled){background:var(--files-accent);filter:brightness(1.1)}
+.files-button--danger{background:var(--files-danger);border-color:transparent;color:#25101a}
+.files-button--danger:hover:not(:disabled){background:var(--files-danger);filter:brightness(1.08)}
+
+.files-crumbs{display:flex;align-items:center;gap:2px;overflow-x:auto;white-space:nowrap;
+  padding:9px 18px;border-bottom:1px solid var(--files-line);background:var(--files-surface-2)}
+.files-crumb{appearance:none;border:0;background:transparent;color:var(--files-muted);cursor:pointer;
+  font:600 12px/1.4 var(--fw-font,system-ui,sans-serif);padding:9px 7px;min-height:44px;border-radius:7px;max-width:220px;
+  overflow:hidden;text-overflow:ellipsis}
+.files-crumb:hover{color:var(--files-text);background:var(--files-surface-3)}
+.files-crumb[aria-current="page"]{color:var(--files-text);background:var(--files-accent-soft)}
+.files-crumb-separator{color:var(--files-muted);opacity:.7;font-size:15px;padding:0 2px}
+
+.files-body{display:grid;grid-template-columns:160px minmax(0,1fr) 216px;gap:0;flex:1;min-height:0;overflow:hidden}
+.files-places,.files-details{padding:16px 14px;overflow:auto;background:var(--files-surface-2);min-width:0}
+.files-places{border-right:1px solid var(--files-line)}
+.files-details{border-left:1px solid var(--files-line)}
+.files-places-title,.files-details-title{margin:0 0 12px;font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--files-muted);font-weight:800}
+.files-place{display:block;width:100%;text-align:left;appearance:none;border:0;border-radius:9px;
+  background:transparent;color:var(--files-text);padding:9px 11px;min-height:44px;margin:0 0 4px;cursor:pointer;
+  font:600 12.5px/1.3 var(--fw-font,system-ui,sans-serif)}
+.files-place:hover{background:var(--files-surface-3)}
+.files-place.is-active{background:var(--files-accent-soft);color:var(--files-text);
+  box-shadow:inset 3px 0 0 var(--files-accent)}
+
+.files-main{display:flex;flex-direction:column;min-width:0;min-height:0;background:var(--files-surface)}
+.files-list-head,.files-row{display:grid;grid-template-columns:var(--files-columns);gap:10px;align-items:center}
+.files-list-head{padding:10px 16px;border-bottom:1px solid var(--files-line);background:var(--files-surface-2);
+  font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--files-muted)}
+.files-list{list-style:none;margin:0;padding:0;overflow:auto;flex:1;min-height:0}
+.files-row{position:relative;padding:9px 16px;border-bottom:1px solid var(--files-line);
+  min-height:52px;transition:background .12s}
+.files-row:hover{background:var(--files-surface-2)}
+.files-row.is-selected{background:var(--files-accent-soft);box-shadow:inset 3px 0 0 var(--files-accent)}
+.files-row:focus-within{outline:1px solid var(--files-focus);outline-offset:-1px}
+.files-name{display:block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;
+  appearance:none;border:0;background:transparent;color:var(--files-text);cursor:pointer;padding:8px 2px;min-height:44px;
+  font:650 13px/1.3 var(--fw-font,system-ui,sans-serif)}
+.files-name:hover{text-decoration:underline}
+.files-type,.files-size,.files-modified{font-size:11.5px;color:var(--files-muted);overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.files-size{font-variant-numeric:tabular-nums}
+.files-row-actions{display:flex;gap:4px;justify-content:flex-end;flex-wrap:wrap}
+.files-row-action{appearance:none;border:1px solid var(--files-line);border-radius:7px;
+  background:var(--files-surface-2);color:var(--files-muted);cursor:pointer;padding:10px 9px;min-height:44px;
+  font:600 10px/1 var(--fw-font,system-ui,sans-serif);white-space:nowrap}
+.files-row-action:hover{color:var(--files-text);border-color:var(--files-accent);background:var(--files-surface-3)}
+
+.files-file-icon{position:relative;display:block;width:24px;height:28px;justify-self:start}
+.files-file-icon::before{content:"";position:absolute;inset:5px 1px 1px;border-radius:4px;
+  background:var(--files-surface-3);border:1px solid var(--files-line-strong,var(--files-line))}
+.files-file-icon::after{content:"";position:absolute;font:800 9px/1 var(--fw-font,system-ui,sans-serif);
+  color:var(--files-accent);left:5px;top:9px}
+.files-file-icon[data-kind="folder"]::before{inset:6px 1px 1px;border-radius:3px 5px 5px 5px;
+  background:linear-gradient(150deg,var(--files-accent),var(--files-teal));opacity:.9}
+.files-file-icon[data-kind="folder"]::after{content:"";left:1px;top:3px;width:11px;height:5px;border-radius:3px 3px 0 0;
+  background:var(--files-accent);opacity:.75}
+.files-file-icon[data-kind="text"]::after{content:"TXT"}
+.files-file-icon[data-kind="image"]::after{content:"IMG";color:var(--files-teal)}
+.files-file-icon[data-kind="generic"]::after{content:"•";font-size:18px;top:5px}
+
+.files-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  padding:38px 24px;color:var(--files-muted);text-align:center;flex:1}
+.files-empty[hidden]{display:none}
+.files-empty-icon{display:grid;place-items:center;width:84px;height:72px;border-radius:14px;
+  border:2px dashed var(--files-line-strong,var(--files-line));font-size:32px;color:var(--files-accent);opacity:.75}
+.files-empty-text{margin:0;max-width:34ch;font-size:12.5px}
+
+.files-details-empty{margin:0;font-size:12px;color:var(--files-muted)}
+.files-details-card{min-width:0}
+.files-details-name{margin:0 0 12px;font-size:15px;font-weight:700;word-break:break-word;line-height:1.3}
+.files-details-list{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 10px;margin:0 0 18px;font-size:11.5px}
+.files-details-term{margin:0;color:var(--files-muted);font-weight:600}
+.files-details-value{margin:0;overflow:hidden;text-overflow:ellipsis;word-break:break-word}
+.files-details-actions{display:flex;flex-direction:column;gap:6px}
+.files-details-actions .files-button{width:100%;text-align:center}
+
+.files-error{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:10px 18px 0;padding:10px 12px;
+  border:1px solid var(--files-danger);border-radius:10px;background:rgba(255,107,122,.10);
+  color:var(--files-text);font-size:12px}
+.files-error[hidden]{display:none}
+.files-error-text{flex:1;min-width:180px}
+.files-status{min-height:34px;margin:0;padding:10px 18px;color:var(--files-muted);font-size:11.5px}
+
+.files-dialog-layer{position:absolute;inset:0;pointer-events:none}
+.files-dialog-overlay{position:absolute;inset:0;display:grid;place-items:center;padding:18px;
+  background:rgba(5,9,20,.62);pointer-events:auto;z-index:5}
+.files-dialog{width:min(420px,100%);max-height:100%;overflow:auto;border-radius:16px;
+  background:var(--files-surface);border:1px solid var(--files-line-strong,var(--files-line));
+  box-shadow:0 24px 70px rgba(3,8,24,.5);padding:20px}
+.files-dialog-title{margin:0 0 8px;font-size:17px;letter-spacing:-.01em}
+.files-dialog-description{margin:0 0 14px;font-size:12.5px;color:var(--files-muted)}
+.files-dialog-content{display:flex;flex-direction:column;gap:10px}
+.files-dialog-error{margin:0;padding:8px 10px;border-radius:8px;border:1px solid var(--files-danger);
+  background:rgba(255,107,122,.10);font-size:11.5px;color:var(--files-text)}
+.files-dialog-error[hidden]{display:none}
+.files-field{display:flex;flex-direction:column;gap:6px;font-size:11.5px;color:var(--files-muted)}
+.files-field-label{font-weight:700}
+.files-input,.files-select{width:100%;min-height:44px;padding:8px 10px;border-radius:9px;
+  border:1px solid var(--files-line-strong,var(--files-line));background:var(--files-surface-2);
+  color:var(--files-text);font:500 13px/1.3 var(--fw-font,system-ui,sans-serif)}
+.files-field-help{font-size:10.5px;opacity:.8}
+.files-check{display:flex;align-items:flex-start;gap:9px;font-size:12px;color:var(--files-text)}
+.files-check input{margin-top:2px;accent-color:var(--files-danger)}
+.files-dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;flex-wrap:wrap}
+
+/* Below a comfortable table width, rows become compact cards: the name keeps
+   the full line and the actions wrap beneath it instead of crushing columns. */
+@media (max-width:1000px){
+  .files-body{grid-template-columns:138px minmax(0,1fr)}
+  .files-details{display:none}
+  .files-list-head{display:none}
+  .files-row{grid-template-columns:24px minmax(0,1fr) auto;
+    grid-template-areas:"icon name size" "actions actions actions";gap:6px 10px;padding:10px 14px}
+  .files-file-icon{grid-area:icon}
+  .files-name{grid-area:name}
+  .files-size{grid-area:size;justify-self:end}
+  .files-type,.files-modified{display:none}
+  .files-row-actions{grid-area:actions;justify-content:flex-start}
+}
+@media (max-width:620px){
+  .files-body{display:flex;flex-direction:column;overflow:auto}
+  .files-places{display:flex;gap:6px;overflow-x:auto;border-right:0;
+    border-bottom:1px solid var(--files-line);padding:10px 12px}
+  .files-places-title{display:none}
+  .files-place{width:auto;flex:none;margin:0}
+  .files-main{min-height:320px}
+  .files-list{max-height:none}
+  .files-header,.files-toolbar,.files-crumbs{padding-left:12px;padding-right:12px}
+}
+/* Short landscape: Places becomes a reachable 44px row above the file list instead
+   of a collapsed side column whose buttons fall below the viewport. */
+@media (max-height:499px){
+  .files-body{display:flex;flex-direction:column;overflow:auto}
+  .files-places{display:flex;flex:none;align-items:center;gap:6px;overflow-x:auto;
+    border-right:0;border-bottom:1px solid var(--files-line);padding:5px 12px}
+  .files-places-title{display:none}
+  .files-place{width:auto;flex:none;margin:0}
+  .files-main{flex:1;min-height:0}
+  .files-list{max-height:none}
+}

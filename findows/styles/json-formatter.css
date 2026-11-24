@@ -1,0 +1,482 @@
+/* JSON Formatter app surface. Every selector is prefixed with .jsonfmt-; no globals. */
+
+.jsonfmt-app {
+  --jf-bg: var(--fw-surface, #101626);
+  --jf-surface: var(--fw-surface-2, #161f33);
+  --jf-surface-3: var(--fw-surface-3, #1e2942);
+  --jf-ink: var(--fw-on-surface, #f5f8ff);
+  --jf-muted: var(--fw-on-muted, #a8b6d2);
+  --jf-line: var(--fw-line-strong, rgba(255, 255, 255, .32));
+  --jf-accent: var(--fw-accent, #4f6df5);
+  --jf-accent-2: var(--fw-accent-2, #16b8a6);
+  --jf-focus: var(--fw-focus, #8ab4ff);
+  --jf-danger: var(--fw-danger, #ff6b7a);
+  container: jsonfmt / inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 16px;
+  overflow: hidden;
+  border-radius: inherit;
+  color: var(--jf-ink);
+  background:
+    radial-gradient(100% 70% at 100% 0%, rgba(22, 184, 166, .13), transparent 60%),
+    linear-gradient(180deg, var(--jf-bg), var(--jf-surface));
+  font-family: var(--fw-font, system-ui, -apple-system, "Segoe UI", sans-serif);
+}
+
+.jsonfmt-app *,
+.jsonfmt-app *::before,
+.jsonfmt-app *::after {
+  box-sizing: border-box;
+}
+
+.jsonfmt-head {
+  flex: none;
+}
+
+.jsonfmt-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 750;
+  letter-spacing: -.02em;
+}
+
+.jsonfmt-subtitle {
+  margin: 2px 0 0;
+  color: var(--jf-muted);
+  font-size: 12px;
+}
+
+.jsonfmt-main {
+  display: grid;
+  grid-template-columns: minmax(280px, .92fr) minmax(0, 1.08fr);
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+}
+
+.jsonfmt-editor,
+.jsonfmt-results {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+  min-height: 0;
+  padding: 12px;
+  overflow: hidden;
+  border: 1px solid var(--jf-line);
+  border-radius: 14px;
+  background: var(--jf-surface);
+}
+
+.jsonfmt-section-title {
+  flex: none;
+  margin: 0;
+  color: var(--jf-muted);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+
+.jsonfmt-input-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex: none;
+}
+
+.jsonfmt-label,
+.jsonfmt-control-label {
+  color: var(--jf-muted);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.jsonfmt-input-actions,
+.jsonfmt-tree-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.jsonfmt-input {
+  flex: 1;
+  width: 100%;
+  min-height: 110px;
+  padding: 10px 11px;
+  resize: none;
+  border: 1px solid var(--jf-line);
+  border-radius: 10px;
+  outline: none;
+  color: var(--jf-ink);
+  background: var(--jf-bg);
+  font: 12.5px/1.5 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  tab-size: 2;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.jsonfmt-input:focus-visible,
+.jsonfmt-indent:focus-visible,
+.jsonfmt-btn:focus-visible,
+.jsonfmt-toggle:focus-visible,
+.jsonfmt-check input:focus-visible {
+  outline: 2px solid var(--jf-focus);
+  outline-offset: 2px;
+}
+
+.jsonfmt-input::placeholder {
+  color: var(--jf-muted);
+  opacity: .72;
+}
+
+.jsonfmt-hint {
+  flex: none;
+  margin: -3px 0 0;
+  color: var(--jf-muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.jsonfmt-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  flex: none;
+  padding-top: 8px;
+  border-top: 1px solid var(--jf-line);
+}
+
+.jsonfmt-indent {
+  min-height: 32px;
+  padding: 4px 7px;
+  border: 1px solid var(--jf-line);
+  border-radius: 8px;
+  color: var(--jf-ink);
+  background: var(--jf-surface-3);
+  font: inherit;
+  font-size: 11px;
+}
+
+.jsonfmt-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--jf-muted);
+  font-size: 11px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.jsonfmt-check input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: var(--jf-accent);
+}
+
+.jsonfmt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--jf-line);
+  border-radius: 10px;
+  color: var(--jf-ink);
+  background: var(--jf-surface-3);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color .15s ease, background-color .15s ease, color .15s ease, transform .08s ease;
+}
+
+.jsonfmt-btn:hover {
+  border-color: var(--jf-accent);
+  background: var(--jf-surface);
+}
+
+.jsonfmt-btn:active {
+  transform: translateY(1px);
+}
+
+.jsonfmt-btn.jsonfmt-primary {
+  border-color: transparent;
+  color: #fff;
+  background: linear-gradient(135deg, var(--jf-accent), var(--jf-accent-2));
+  font-weight: 750;
+}
+
+.jsonfmt-results-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+}
+
+.jsonfmt-stats {
+  color: var(--jf-accent-2);
+  font-size: 11px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.jsonfmt-tree-actions {
+  margin-left: auto;
+}
+
+.jsonfmt-tree-actions .jsonfmt-btn {
+  min-height: 34px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+
+.jsonfmt-error {
+  flex: none;
+  padding: 9px 11px;
+  border: 1px solid var(--jf-danger);
+  border-left-width: 3px;
+  border-radius: 9px;
+  color: var(--jf-danger);
+  background: var(--jf-surface-3);
+}
+
+.jsonfmt-error-message {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.jsonfmt-error-location {
+  margin: 4px 0 0;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.jsonfmt-error-snippet,
+.jsonfmt-error-caret {
+  display: block;
+  max-width: 100%;
+  margin: 6px 0 0;
+  overflow-x: auto;
+  color: var(--jf-ink);
+  font: 11.5px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace;
+  white-space: pre;
+}
+
+.jsonfmt-error-caret {
+  margin-top: 0;
+  color: var(--jf-danger);
+}
+
+.jsonfmt-tree {
+  flex: 1;
+  min-height: 0;
+  padding: 4px 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  font: 12.5px/1.6 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+}
+
+.jsonfmt-empty {
+  flex: none;
+  margin: 0;
+  padding: 18px 4px;
+  color: var(--jf-muted);
+  font-size: 12px;
+  font-style: italic;
+  text-align: center;
+}
+
+.jsonfmt-node {
+  min-width: max-content;
+}
+
+.jsonfmt-node-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 25px;
+  padding: 1px 4px;
+  border-radius: 6px;
+}
+
+.jsonfmt-node-row:hover {
+  background: var(--jf-surface-3);
+}
+
+.jsonfmt-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid var(--jf-line);
+  border-radius: 5px;
+  color: var(--jf-accent-2);
+  background: transparent;
+  font: 11px/1 system-ui, sans-serif;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.jsonfmt-toggle:hover {
+  border-color: var(--jf-accent-2);
+}
+
+.jsonfmt-toggle-spacer {
+  display: inline-block;
+  width: 20px;
+  flex: none;
+}
+
+.jsonfmt-key {
+  color: var(--jf-accent);
+  font-weight: 650;
+}
+
+.jsonfmt-punct {
+  color: var(--jf-muted);
+  white-space: pre;
+}
+
+.jsonfmt-meta {
+  margin-left: 5px;
+  color: var(--jf-muted);
+  font-size: 10.5px;
+  font-style: italic;
+}
+
+.jsonfmt-children {
+  margin-left: 18px;
+  padding-left: 10px;
+  border-left: 1px dashed var(--jf-line);
+}
+
+.jsonfmt-children[hidden] {
+  display: none;
+}
+
+.jsonfmt-value--string {
+  color: color-mix(in srgb, #16b8a6 68%, var(--jf-ink));
+}
+
+.jsonfmt-value--number {
+  color: color-mix(in srgb, #d9922f 68%, var(--jf-ink));
+}
+
+.jsonfmt-value--boolean {
+  color: color-mix(in srgb, var(--jf-accent) 68%, var(--jf-ink));
+}
+
+.jsonfmt-value--null {
+  color: var(--jf-muted);
+}
+
+.jsonfmt-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  padding-top: 9px;
+  border-top: 1px solid var(--jf-line);
+}
+
+.jsonfmt-output-info {
+  margin-right: auto;
+  color: var(--jf-muted);
+  font-size: 11px;
+}
+
+.jsonfmt-sr-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.jsonfmt-scratch,
+.jsonfmt-download-link {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@container jsonfmt (max-width: 620px) {
+  .jsonfmt-main {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(210px, .95fr) minmax(0, 1.05fr);
+  }
+
+  .jsonfmt-editor {
+    overflow: auto;
+  }
+
+  .jsonfmt-controls {
+    gap: 5px;
+  }
+
+  .jsonfmt-tree-actions .jsonfmt-btn {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 767px), (max-height: 499px) {
+  .jsonfmt-app {
+    gap: 7px;
+    padding: 10px;
+  }
+
+  .jsonfmt-editor,
+  .jsonfmt-results {
+    gap: 6px;
+    padding: 9px;
+  }
+
+  .jsonfmt-hint {
+    display: none;
+  }
+
+  .jsonfmt-input {
+    min-height: 78px;
+  }
+
+  .jsonfmt-btn {
+    min-height: 44px;
+    padding: 0 10px;
+  }
+
+  .jsonfmt-tree-actions .jsonfmt-btn {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jsonfmt-btn {
+    transition: none;
+  }
+
+  .jsonfmt-btn:active {
+    transform: none;
+  }
+}

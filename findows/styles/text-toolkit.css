@@ -1,0 +1,272 @@
+/* Text Toolkit app surface. Every selector is prefixed with .ttk-; no globals. */
+
+.ttk-app {
+  --ttk-bg: var(--fw-surface, #101626);
+  --ttk-surface: var(--fw-surface-2, #161f33);
+  --ttk-surface-3: var(--fw-surface-3, #1e2942);
+  --ttk-ink: var(--fw-on-surface, #f5f8ff);
+  --ttk-muted: var(--fw-on-muted, #a8b6d2);
+  --ttk-line: var(--fw-line-strong, rgba(255, 255, 255, .28));
+  --ttk-accent: var(--fw-accent, #4f6df5);
+  --ttk-accent-2: var(--fw-accent-2, #16b8a6);
+  --ttk-focus: var(--fw-focus, #8ab4ff);
+  --ttk-danger: var(--fw-danger, #ff6b7a);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 14px;
+  overflow: hidden;
+  border-radius: inherit;
+  color: var(--ttk-ink);
+  background:
+    radial-gradient(110% 80% at 100% 0%, rgba(79, 109, 245, .14), transparent 62%),
+    linear-gradient(180deg, var(--ttk-bg), var(--ttk-surface));
+  font-family: var(--fw-font, system-ui, -apple-system, "Segoe UI", sans-serif);
+}
+
+.ttk-app *,
+.ttk-app *::before,
+.ttk-app *::after {
+  box-sizing: border-box;
+}
+
+.ttk-head {
+  flex: none;
+}
+
+.ttk-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 680;
+  letter-spacing: -.02em;
+}
+
+.ttk-subtitle {
+  margin: 2px 0 0;
+  color: var(--ttk-muted);
+  font-size: 12px;
+}
+
+.ttk-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.ttk-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  gap: 4px;
+}
+
+.ttk-label {
+  display: block;
+  padding: 0 2px;
+  color: var(--ttk-muted);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.ttk-input,
+.ttk-output {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--ttk-line);
+  border-radius: 12px;
+  outline: none;
+  color: var(--ttk-ink);
+  background: var(--ttk-surface-3);
+  font: 13px/1.5 var(--fw-mono, ui-monospace, "SFMono-Regular", Consolas, monospace);
+  resize: none;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  tab-size: 2;
+}
+
+.ttk-input:focus-visible,
+.ttk-operation:focus-visible,
+.ttk-tab-size:focus-visible,
+.ttk-apply:focus-visible,
+.ttk-clear:focus-visible,
+.ttk-copy:focus-visible,
+.ttk-download:focus-visible {
+  outline: 2px solid var(--ttk-focus);
+  outline-offset: 2px;
+}
+
+.ttk-output {
+  color: var(--ttk-ink);
+  background: linear-gradient(180deg, rgba(22, 184, 166, .09), rgba(22, 184, 166, .02)), var(--ttk-surface-3);
+}
+
+.ttk-counter {
+  margin: 0;
+  padding: 0 2px;
+  color: var(--ttk-muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.ttk-controls {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.ttk-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ttk-field-operation {
+  flex: 1 1 220px;
+}
+
+.ttk-field-tab {
+  flex: 0 0 88px;
+}
+
+.ttk-operation,
+.ttk-tab-size {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid var(--ttk-line);
+  border-radius: 10px;
+  color: var(--ttk-ink);
+  background: var(--ttk-surface-3);
+  font: inherit;
+  font-size: 13px;
+}
+
+.ttk-operation:disabled,
+.ttk-tab-size:disabled {
+  opacity: .5;
+}
+
+.ttk-actions {
+  flex: 1 1 320px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ttk-apply,
+.ttk-clear,
+.ttk-copy,
+.ttk-download {
+  flex: 1 1 auto;
+  min-height: 44px;
+  padding: 9px 14px;
+  border: 1px solid var(--ttk-line);
+  border-radius: 10px;
+  color: var(--ttk-ink);
+  background: var(--ttk-surface-3);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 620;
+  cursor: pointer;
+}
+
+.ttk-button-primary {
+  border-color: transparent;
+  color: #fff;
+  background: linear-gradient(135deg, var(--ttk-accent), var(--ttk-accent-2));
+}
+
+.ttk-apply:hover,
+.ttk-clear:hover,
+.ttk-copy:hover,
+.ttk-download:hover {
+  filter: brightness(1.12);
+}
+
+.ttk-apply:active,
+.ttk-clear:active,
+.ttk-copy:active,
+.ttk-download:active {
+  transform: translateY(1px);
+}
+
+.ttk-error {
+  flex: none;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--ttk-danger);
+  border-radius: 10px;
+  color: var(--ttk-danger);
+  background: rgba(255, 107, 122, .1);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.ttk-error[hidden] {
+  display: none;
+}
+
+.ttk-status {
+  flex: none;
+  min-height: 17px;
+  margin: 0;
+  color: var(--ttk-accent-2);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.ttk-hint {
+  flex: none;
+  margin: 0;
+  color: var(--ttk-muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+@media (max-width: 720px), (max-height: 520px) {
+  .ttk-app {
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .ttk-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(52px, 1fr) minmax(52px, 1fr);
+    gap: 8px;
+  }
+
+  .ttk-title {
+    font-size: 16px;
+  }
+
+  .ttk-subtitle,
+  .ttk-hint {
+    display: none;
+  }
+
+  .ttk-actions {
+    flex-basis: 100%;
+  }
+
+  .ttk-input,
+  .ttk-output {
+    padding: 9px;
+    font-size: 12px;
+  }
+}

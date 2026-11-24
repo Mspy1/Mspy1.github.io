@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="hm-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8098ff"/><stop offset="1" stop-color="#16b8a6"/></linearGradient>
+    <linearGradient id="hm-gloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="hm-tile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#dce6ff"/></linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#hm-bg)"/>
+  <rect x="2.8" y="2.8" width="58.4" height="29" rx="15" fill="url(#hm-gloss)"/>
+  <rect x="2.8" y="2.8" width="58.4" height="58.4" rx="15.2" fill="none" stroke="#fff" stroke-opacity=".4"/>
+  <g fill="none" stroke="#101a34" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 53h27"/>
+    <path d="M16 53V11h25"/>
+    <path d="M41 11v6"/>
+  </g>
+  <g fill="none" stroke="#f5f8ff" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="41" cy="23" r="5.2"/>
+    <path d="M41 28v13M41 31l-6 4M41 31l6 4M41 41l-5 7M41 41l5 7"/>
+  </g>
+  <g transform="translate(40 41)">
+    <rect x="0" y="0" width="19" height="15" rx="4" fill="url(#hm-tile)" stroke="#0e1730" stroke-opacity=".35" stroke-width=".9"/>
+    <g fill="none" stroke="#2d54b8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 11l4.5-8L14 11"/>
+      <path d="M6.8 8h5.4"/>
+    </g>
+  </g>
+</svg>
