@@ -42,8 +42,9 @@
 .fw-exit::before{content:"←";font-size:15px}
 
 .fw-desktop-area{position:absolute;inset:54px 0 66px;z-index:5}
-/* 30+ shortcuts must scroll inside the desktop area, never scroll the shell
-   itself (a scrolled shell drags every open window off-screen). */
+/* Shortcuts stay inside the desktop area; the shell itself never scrolls
+   (a scrolled shell drags every open window off-screen). Compact layouts below
+   may scroll this strip horizontally. */
 .fw-shortcuts{position:absolute;top:18px;left:22px;display:grid;grid-template-columns:repeat(2,92px);
   gap:14px;align-content:start;max-height:calc(100% - 36px);overflow-x:hidden;overflow-y:auto;
   padding-right:4px;scrollbar-width:thin}
@@ -179,6 +180,37 @@
 #fw-desktop[data-keyboard="true"] .fw-switcher-panel{bottom:calc(76px + var(--fw-keyboard-inset))}
 
 #fw-desktop :focus-visible{outline:2px solid var(--fw-focus);outline-offset:2px}
+
+/* Wide PC: all shortcuts live on the desktop at once, filled top-to-bottom
+   into columns like a classic All Apps grid. data-layout is set by the same
+   media query the shell uses for compact behavior, so CSS and JS cannot pick
+   different layouts at fractional viewport sizes. The area gives the grid a
+   definite height; auto-fill chooses the row count and column flow spreads the
+   rest sideways. Row height scales with the viewport so short PCs stay compact
+   and five columns always fit the smallest wide width. */
+#fw-desktop[data-layout="wide"] .fw-shortcuts{
+  --fw-sh-row:clamp(46px,9.2vh,88px);
+  --fw-sh-row-gap:clamp(3px,.5vh,8px);
+  --fw-sh-col:138px;
+  --fw-sh-col-gap:clamp(6px,.8vw,12px);
+  top:12px;bottom:12px;left:22px;right:22px;
+  display:grid;grid-template-columns:none;
+  grid-template-rows:repeat(auto-fill,var(--fw-sh-row));
+  grid-auto-flow:column;grid-auto-columns:var(--fw-sh-col);
+  gap:var(--fw-sh-row-gap) var(--fw-sh-col-gap);align-content:start;
+  max-height:none;overflow:clip;overflow-clip-margin:8px;
+  padding-right:0;scrollbar-width:none;
+}
+#fw-desktop[data-layout="wide"] .fw-shortcut{width:100%;height:100%;min-height:0;justify-content:center;
+  padding:2px 6px;gap:clamp(2px,.8vh,8px)}
+#fw-desktop[data-layout="wide"] .fw-shortcut .fw-icon{width:clamp(24px,4.6vh,46px);height:clamp(24px,4.6vh,46px)}
+#fw-desktop[data-layout="wide"] .fw-shortcut-name{padding:0 4px;white-space:nowrap}
+/* An on-screen keyboard shortens the work area, so more columns are needed.
+   Let the user scroll sideways to the remaining apps instead of clipping them;
+   the normal, non-scroll grid returns as soon as the keyboard is dismissed. */
+#fw-desktop[data-layout="wide"][data-keyboard="true"] .fw-shortcuts{
+  overflow-x:auto;overflow-y:hidden;scrollbar-width:auto
+}
 @media (max-width:767px),(max-height:499px){
   .fw-title-button[data-action="window-menu"]{display:none}
   .fw-topbar{height:48px;padding:0 12px}

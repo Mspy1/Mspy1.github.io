@@ -71,28 +71,57 @@ try {
     return m.wm.getState().length;
   }, count);
 
-  log("S1 30 shortcuts must scroll internally, never scroll #fw-desktop (Paint smoke step)");
+  log("S1 all 31 PC shortcuts fit in column-first order without scrolling");
   {
     const page = await freshPage();
-    const bounded = await page.evaluate(() => {
-      const shortcuts = document.querySelector(".fw-shortcuts");
-      const area = document.querySelector(".fw-desktop-area");
-      const cs = getComputedStyle(shortcuts);
-      return {
-        count: shortcuts.querySelectorAll(".fw-shortcut").length,
-        scrollHeight: shortcuts.scrollHeight,
-        clientHeight: shortcuts.clientHeight,
-        overflowY: cs.overflowY,
-        bottom: shortcuts.getBoundingClientRect().bottom,
-        areaBottom: area.getBoundingClientRect().bottom,
-      };
-    });
-    ok(bounded.count > 20 && bounded.scrollHeight > bounded.clientHeight
-      && bounded.overflowY === "auto" && bounded.bottom <= bounded.areaBottom + 1,
-    `shortcut grid is height-bounded and scrollable (${JSON.stringify(bounded)})`);
-    await page.click("#fw-start");
-    await page.fill("#fw-search", "paint");
-    await page.click("#fw-results button[data-app-id='paint']");
+    for (const [width, height] of [[1440, 900], [1366, 600], [768, 500]]) {
+      await page.setViewportSize({ width, height });
+      const layout = await page.evaluate(() => {
+        const desktop = document.querySelector("#fw-desktop");
+        const shortcuts = document.querySelector("#fw-shortcuts");
+        const area = document.querySelector(".fw-desktop-area").getBoundingClientRect();
+        const buttons = [...shortcuts.querySelectorAll(".fw-shortcut")];
+        const boxes = buttons.map((button) => button.getBoundingClientRect());
+        const unreachable = buttons.filter((button, i) => {
+          const { left, top, right, bottom, width, height } = boxes[i];
+          const parts = [...button.children].map((part) => part.getBoundingClientRect());
+          return !width || !height || left < area.left || top < area.top
+            || right > area.right || bottom > area.bottom
+            || parts.some((part) => part.left < left || part.right > right
+              || part.top < top || part.bottom > bottom)
+            || document.elementFromPoint(left + width / 2, top + height / 2)
+              ?.closest(".fw-shortcut") !== button;
+        }).map((button) => button.dataset.appId);
+        const columnFirst = boxes.length > 1 && boxes[0].left === boxes[1].left
+          && boxes.every((box, i) => i === 0 || (box.left === boxes[i - 1].left
+            ? box.top >= boxes[i - 1].bottom
+            : box.left >= boxes[i - 1].right && box.top === boxes[0].top));
+        const noScroll = [desktop, shortcuts].every((node) =>
+          node.scrollHeight <= node.clientHeight && node.scrollWidth <= node.clientWidth);
+        return { count: boxes.length, unreachable, columnFirst, noScroll };
+      });
+      ok(layout.count === 31 && layout.unreachable.length === 0 && layout.columnFirst && layout.noScroll,
+        `${width}×${height} shows every shortcut without scrolling (${JSON.stringify(layout)})`);
+    }
+
+    const buttons = page.locator("#fw-shortcuts .fw-shortcut");
+    const appIds = await buttons.evaluateAll((nodes) => nodes.map((node) => node.dataset.appId));
+    const focusedApp = () => page.evaluate(() => document.activeElement?.dataset.appId);
+    await buttons.first().focus();
+    const tabbed = [await focusedApp()];
+    for (let i = 1; i < appIds.length; i++) {
+      await page.keyboard.press("Tab");
+      tabbed.push(await focusedApp());
+    }
+    ok(tabbed.length === 31 && tabbed.every((id, i) => id === appIds[i]),
+      "Tab visits all 31 shortcuts in visual order");
+    await page.keyboard.press("Enter");
+    const lastWindow = page.locator(`.fw-window[data-app-id="${appIds.at(-1)}"]`);
+    await lastWindow.waitFor();
+    await lastWindow.locator('[data-action="close"]').click();
+
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.click(".fw-shortcut[data-app-id='paint']");
     await page.waitForSelector(".paint-canvas");
     const geom = await page.evaluate(() => {
       const desktop = document.querySelector("#fw-desktop");
@@ -113,7 +142,7 @@ try {
     });
     ok(geom.scrollTop === 0 && !geom.desktopScrollable && geom.winTop > 0
       && geom.canvasTop > 0 && geom.canvasBottom < 900 && String(geom.hit).includes("paint-canvas"),
-    `Paint stays on-screen after Start click (${JSON.stringify(geom)})`);
+    `Paint stays on-screen after desktop shortcut click (${JSON.stringify(geom)})`);
     await page.close();
   }
 
@@ -317,6 +346,35 @@ try {
     });
     ok(before.bottom > 600 && after.bottom <= after.limit && after.taskbarBottom <= after.limit,
       `focused input and taskbar sit above the simulated keyboard (${JSON.stringify({ before, after })})`);
+    await page.close();
+
+    const launcher = await freshPage(kbCtx);
+    await launcher.setViewportSize({ width: 768, height: 500 });
+    async function setKeyboardInset(inset) {
+      await launcher.evaluate((px) => {
+        window.__vv.height = window.innerHeight - px;
+        window.__vv.dispatchEvent(new Event("resize"));
+      }, inset);
+    }
+    await setKeyboardInset(150);
+    await launcher.mouse.move(40, 90);
+    await launcher.mouse.wheel(1200, 0);
+    const lastShortcutReachable = () => {
+      const button = document.querySelector("#fw-shortcuts .fw-shortcut:last-child");
+      const { x, y, width, height } = button.getBoundingClientRect();
+      return document.elementFromPoint(x + width / 2, y + height / 2)?.closest(".fw-shortcut") === button;
+    };
+    try {
+      await launcher.waitForFunction(lastShortcutReachable, null, { timeout: 1000 });
+      ok(true, "last wide-layout shortcut remains reachable with the keyboard visible");
+    } catch (error) {
+      if (error.name !== "TimeoutError") throw error;
+      ok(false, "last wide-layout shortcut is clipped with the keyboard visible");
+    }
+    await setKeyboardInset(0);
+    const restored = await launcher.locator("#fw-shortcuts").evaluate((grid) =>
+      grid.scrollLeft === 0 && grid.scrollWidth <= grid.clientWidth && grid.scrollHeight <= grid.clientHeight);
+    ok(restored, "dismissing the keyboard restores the no-scroll wide grid");
     await kbCtx.close();
   }
 
